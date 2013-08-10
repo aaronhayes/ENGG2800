@@ -1,18 +1,17 @@
 package ui;
 
+import ui.action.handlers.*;
 import ui.panels.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
 /**
  * A window for displaying the user interface panels
  * @author Aaron Hayes
- * @version 0.1
  */
 public class WindowFrame extends JFrame {
 
@@ -27,24 +26,9 @@ public class WindowFrame extends JFrame {
     public WindowFrame() {
         setTitle("MTV - ENGG2800 - Team 23");
         setLayout(new BorderLayout());
-
+        new WindowActionHandler(this);
         addPanels();
-        closeListener();
         setBounds(250, 150, 750, 450);
-    }
-
-    /**
-     * Add listener to respond to closing the window
-     */
-    private void closeListener() {
-        WindowAdapter wa = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        };
-
-        addWindowListener(wa);
     }
 
     /**
@@ -87,6 +71,7 @@ public class WindowFrame extends JFrame {
     private void addSliderPanel() {
         sliderPanel = new SliderPanel();
         add(sliderPanel, BorderLayout.EAST);
+        new SliderActionHandler(this);
     }
 
     /**
@@ -95,5 +80,24 @@ public class WindowFrame extends JFrame {
     private void addControlPanel() {
         controlPanel = new ControlPanel();
         add(controlPanel, BorderLayout.SOUTH);
+        new StreamButtonActionHandler(this);
+        new SaveButtonActionHandler(this);
+        new PanoramaButtonActionHandler(this);
+    }
+
+    /**
+     * Get slider Panel
+     * @return this.sliderPanel
+     */
+    public SliderPanel getSliderPanel() {
+        return sliderPanel;
+    }
+
+    /**
+     * Get content Panel
+     * @return this.sliderPanel
+     */
+    public ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

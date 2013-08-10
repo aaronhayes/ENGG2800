@@ -2,7 +2,7 @@ package ui.panels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,6 @@ public class SliderPanel extends JPanel {
         setLayout(new BorderLayout());
 
         slider = new JSlider (JSlider.VERTICAL, BRIGHTNESS_MIN, BRIGHTNESS_MAX, BRIGHTNESS_INIT);
-        setupListener();
         slider.setMajorTickSpacing(TICK_SPACING);
         slider.setPaintTicks(true);
         slider.setSnapToTicks(true);
@@ -53,21 +52,17 @@ public class SliderPanel extends JPanel {
     }
 
     /**
-     * Listen to slider
+     * Get Slider Value
      */
-    private void setupListener() {
-        ChangeListener cl = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                int val = slider.getValue();
+    public int getSliderValue() {
+        return slider.getValue();
+    }
 
-                /* Check if slider value is divisible by 10 */
-                if (val % 10 == 0 ) {
-                    System.out.println("Value Changed, now = " + val);
-                }
-            }
-        };
-        slider.addChangeListener(cl);
+    /**
+     * Add change listener to slider
+     */
+    public void addChangeListner(ChangeListener l) {
+        slider.addChangeListener(l);
     }
 
 }

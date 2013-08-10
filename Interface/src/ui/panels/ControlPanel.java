@@ -25,4 +25,20 @@ public class ControlPanel extends JPanel {
         add(buttonPanel, BorderLayout.WEST);
         add(infoPanel, BorderLayout.EAST);
     }
+
+    /**
+     * Get Button Panel
+     * @return ButtonPanel
+     */
+    public ButtonPanel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    /**
+     * Get Info Panel
+     * @return InfoPanel
+     */
+    public InfoPanel getInfoPanel() {
+        return infoPanel;
+    }
 }
