@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * A window for displaying the user interface panels
@@ -57,9 +58,12 @@ public class WindowFrame extends JFrame {
         bitmapPanel = new BitmapPanel();
 
         try {
-            bitmapPanel.updateImage(ImageIO.read(new File("A:\\Uni\\GIT\\ENGG2800\\Interface\\src\\ui\\Untitled.bmp")));
+            URL url = getClass().getResource("Placeholder.bmp");
+            if (url != null) {
+                bitmapPanel.updateImage(ImageIO.read(new File(url.getPath())));
+            }
         } catch (IOException e) {
-            //TODO
+            System.err.println(e.toString() + " Leaving Placeholder Image off display.");
         }
 
         add(bitmapPanel, BorderLayout.CENTER);
