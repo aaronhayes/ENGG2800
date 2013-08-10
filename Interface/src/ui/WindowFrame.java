@@ -19,18 +19,18 @@ public class WindowFrame extends JFrame {
     private BitmapPanel bitmapPanel;
     private SliderPanel sliderPanel;
     private ControlPanel controlPanel;
-
+    private TitlePanel titlePanel;
 
     /**
      * Create a new Window Frame
      */
     public WindowFrame() {
-        setTitle("MTV - Team 23 - ENGG2800");
+        setTitle("MTV - ENGG2800 - Team 23");
         setLayout(new BorderLayout());
 
         addPanels();
         closeListener();
-        setBounds(300, 150, 800, 500);
+        setBounds(250, 150, 750, 450);
     }
 
     /**
@@ -51,10 +51,19 @@ public class WindowFrame extends JFrame {
      * Add Panels to WindowFrame
      */
     private void addPanels() {
+        addTitlePanel();
         addBitmapPanel();
         addSliderPanel();
         addControlPanel();
         pack();
+    }
+
+    /**
+     * Add the Title panel to the frame
+     */
+    private void addTitlePanel(){
+        titlePanel = new TitlePanel();
+        add(titlePanel, BorderLayout.NORTH);
     }
 
     /**
@@ -72,7 +81,6 @@ public class WindowFrame extends JFrame {
         add(bitmapPanel, BorderLayout.CENTER);
     }
 
-
     /**
      * Add the Slider panel to the frame
      */
@@ -81,7 +89,6 @@ public class WindowFrame extends JFrame {
         add(sliderPanel, BorderLayout.EAST);
     }
 
-
     /**
      * Add the Control Panel to the frame
      */
@@ -89,5 +96,4 @@ public class WindowFrame extends JFrame {
         controlPanel = new ControlPanel();
         add(controlPanel, BorderLayout.SOUTH);
     }
-
 }
