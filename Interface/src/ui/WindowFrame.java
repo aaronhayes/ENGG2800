@@ -26,11 +26,11 @@ public class WindowFrame extends JFrame {
      */
     public WindowFrame() {
         setTitle("MTV - Team 23 - ENGG2800");
-        setBounds(300, 150, 800, 500);
         setLayout(new BorderLayout());
 
         addPanels();
         closeListener();
+        setBounds(300, 150, 800, 500);
     }
 
     /**

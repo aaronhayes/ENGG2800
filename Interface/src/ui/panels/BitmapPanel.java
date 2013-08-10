@@ -38,7 +38,7 @@ public class BitmapPanel extends JPanel {
     }
 
     /**
-     *
+     *  Print bitmap to screen
      */
     @Override
     protected void paintComponent(Graphics g) {

@@ -2,6 +2,7 @@ package ui.panels;
 
 import javax.swing.*;
 import ui.panels.control.*;
+import java.awt.*;
 
 /**
  * Panel to display the control section
@@ -20,5 +21,8 @@ public class ControlPanel extends JPanel {
 
         buttonPanel = new ButtonPanel();
         infoPanel = new InfoPanel();
+        setLayout(new BorderLayout());
+        add(buttonPanel, BorderLayout.WEST);
+        add(infoPanel, BorderLayout.EAST);
     }
 }
