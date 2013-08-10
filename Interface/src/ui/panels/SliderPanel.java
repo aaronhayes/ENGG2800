@@ -45,7 +45,7 @@ public class SliderPanel extends JPanel {
                 add(logo, BorderLayout.NORTH);
             }
         } catch (IOException e) {
-            System.err.println(e.toString());
+            System.err.println(e.toString() + " Leaving Brightness Logo off Panel.");
             // Leave logo off panel
         }
 
@@ -59,7 +59,12 @@ public class SliderPanel extends JPanel {
         ChangeListener cl = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Value Changed, now = " + slider.getValue());
+                int val = slider.getValue();
+
+                /* Check if slider value is divisible by 10 */
+                if (val % 10 == 0 ) {
+                    System.out.println("Value Changed, now = " + val);
+                }
             }
         };
         slider.addChangeListener(cl);
