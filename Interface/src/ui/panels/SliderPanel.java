@@ -16,8 +16,8 @@ public class SliderPanel extends JPanel {
 
     /* Setup Slider Parameters*/
     static final int BRIGHTNESS_MIN = 0;
-    static final int BRIGHTNESS_MAX = 100;
-    static final int BRIGHTNESS_INIT = 50;
+    static final int BRIGHTNESS_MAX = 200;
+    static final int BRIGHTNESS_INIT = 100;
     static final int TICK_SPACING = 10;
 
     JSlider slider;

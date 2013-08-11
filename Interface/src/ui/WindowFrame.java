@@ -58,7 +58,7 @@ public class WindowFrame extends JFrame {
         bitmapPanel = new BitmapPanel();
 
         try {
-            URL url = getClass().getResource("Placeholder.bmp");
+            URL url = getClass().getResource("Placeholder2.bmp");
             if (url != null) {
                 bitmapPanel.updateImage(ImageIO.read(new File(url.getPath())));
             }
@@ -103,5 +103,13 @@ public class WindowFrame extends JFrame {
      */
     public ControlPanel getControlPanel() {
         return controlPanel;
+    }
+
+    /**
+     * Get Bitmap Panel
+     * @return this.bitmapPanel
+     */
+    public BitmapPanel getBitmapPanel() {
+        return bitmapPanel;
     }
 }
