@@ -1,6 +1,7 @@
 import ui.WindowFrame;
 
 /**
+ * Start MTV display system
  * @author Aaron Hayes
  */
 public class StreamViewer {

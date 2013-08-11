@@ -45,6 +45,13 @@ public class BitmapPanel extends JPanel {
     }
 
     /**
+     * Get display image
+     */
+    public BufferedImage getDisplayBitmap() {
+        return display;
+    }
+
+    /**
      * Display a new image.
      * @param i BufferedImage
      */

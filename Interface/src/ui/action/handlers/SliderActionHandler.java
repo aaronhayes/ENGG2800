@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
 
 /**
+ * Handle Slider Value Changes
  * @author Aaron Hayes
  */
 public class SliderActionHandler {
