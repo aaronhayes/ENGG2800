@@ -51,5 +51,19 @@ public class ButtonPanel extends JPanel {
     public void addActionListenerPanorama(ActionListener a) {
         panorama.addActionListener(a);
     }
+
+    /**
+     * Change the text on the stream button
+     * @param status boolean Status of the USB stream
+     */
+    public void toggleStreamButtonText(boolean status) {
+        if (status) {
+            stream.setText("Stop Stream");
+        } else {
+            stream.setText("Start Stream");
+        }
+        stream.repaint();
+
+    }
 }
 

@@ -2,6 +2,7 @@ package ui;
 
 import ui.action.handlers.*;
 import ui.panels.*;
+import usb.SerialPortConnection;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,6 +22,8 @@ public class WindowFrame extends JFrame {
     private ControlPanel controlPanel;
     private TitlePanel titlePanel;
 
+    private SerialPortConnection serialPortConnection;
+
     /**
      * Create a new Window Frame
      */
@@ -28,6 +31,7 @@ public class WindowFrame extends JFrame {
         setTitle("MTV - ENGG2800 - Team 23");
         setLayout(new BorderLayout());
         new WindowActionHandler(this);
+        serialPortConnection = new SerialPortConnection(this);
         addPanels();
         setBounds(250, 150, 750, 450);
     }
@@ -112,4 +116,13 @@ public class WindowFrame extends JFrame {
     public BitmapPanel getBitmapPanel() {
         return bitmapPanel;
     }
+
+    /**
+     * Get SerialPortListener
+     * @return SerialPortListener
+     */
+    public SerialPortConnection getSerialPortConnection() {
+        return serialPortConnection;
+    }
+
 }

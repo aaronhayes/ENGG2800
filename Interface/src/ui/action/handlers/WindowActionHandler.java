@@ -12,14 +12,18 @@ import java.awt.event.WindowEvent;
  */
 public class WindowActionHandler {
 
+    private WindowFrame windowFrame;
     /**
      * Basic Constructor for handler
      * @param wf WindowFrame user is interacting with
      */
     public WindowActionHandler(WindowFrame wf) {
+        windowFrame = wf;
+
         WindowAdapter wa = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                windowFrame.getSerialPortConnection().stop();
                 System.exit(0);
             }
         };

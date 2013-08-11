@@ -10,16 +10,20 @@ import java.awt.event.ActionListener;
  * @author Aaron Hayes
  */
 public class StreamButtonActionHandler {
-
+    private WindowFrame windowFrame;
     /**
      * Basic constructor
      * @param wf WindowFrame
      */
     public StreamButtonActionHandler(WindowFrame wf) {
+        windowFrame = wf;
+
         ActionListener a = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Stream!!");
+                windowFrame.getSerialPortConnection().toggle();
+                windowFrame.getControlPanel().getButtonPanel().toggleStreamButtonText(
+                        windowFrame.getSerialPortConnection().getStatus());
             }
         };
 
