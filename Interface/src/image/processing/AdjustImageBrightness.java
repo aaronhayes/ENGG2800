@@ -17,7 +17,7 @@ public class AdjustImageBrightness {
      */
     public static BufferedImage Adjust(BufferedImage i, int val) {
         float f = (float) val / 100;
-        RescaleOp op = new RescaleOp(f, 0, null);
+        RescaleOp op = new RescaleOp(f, 0.0f, null);
         return op.filter(i, null);
     }
 }
