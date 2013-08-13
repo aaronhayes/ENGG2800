@@ -7,15 +7,39 @@ import javax.swing.*;
  * @author Aaron Hayes
  */
 public class InfoPanel extends JPanel {
-
-    JLabel label;
+    private JList list;
+    private DefaultListModel model;
     /**
      * Basic constructor
      */
     public InfoPanel() {
         super();
-        label = new JLabel("Feature Detected at Location (x, y)");
-        add(label);
+        model = new DefaultListModel();
+        list = new JList(model);
+
+        list.setFixedCellWidth(250);
+        list.setBackground(UIManager.getColor("Panel.background"));
+        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        add(list);
+        addFeature("Feature", 0, 0);
+        addFeature("Random Fake Feature", 0, 0);
+    }
+
+    /**
+     * Add a feature to the list
+     * @param s String Name of the feature
+     * @param x int x location
+     * @param y int y location
+     */
+    public void addFeature (String s, int x, int y) {
+        model.addElement(s + " (" + x + "," + y + ")");
+    }
+
+    /**
+     * Clear List
+     */
+    public void clearList() {
+        model.removeAllElements();
     }
 
 }

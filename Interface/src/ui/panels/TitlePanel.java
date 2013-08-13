@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public class TitlePanel extends JPanel {
 
-    JLabel label;
+    private JLabel label;
 
     /**
      * Basic constructor

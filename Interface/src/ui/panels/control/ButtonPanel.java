@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
  */
 public class ButtonPanel extends JPanel {
 
-    JButton stream;
-    JButton save;
-    JButton panorama;
+    private JButton stream;
+    private JButton save;
+    private JButton panorama;
 
     /**
      * Basic constructor
@@ -22,6 +22,10 @@ public class ButtonPanel extends JPanel {
         stream = new JButton("Start Stream");
         save = new JButton("Save Image");
         panorama = new JButton("Panorama");
+
+        stream.setVerticalAlignment(SwingConstants.CENTER);
+        save.setVerticalAlignment(SwingConstants.CENTER);
+        panorama.setVerticalAlignment(SwingConstants.CENTER);
 
         add(stream);
         add(save);
