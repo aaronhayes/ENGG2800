@@ -10,7 +10,7 @@ import usb.event.listener.SerialPortReader;
  * @author Aaron Hayes
  */
 public class SerialPortConnection {
-    private static String PORT = "COM3";
+    private String port = "COM3";
     private boolean reading = false;
     private WindowFrame windowFrame;
     /**
@@ -23,9 +23,24 @@ public class SerialPortConnection {
         for (String com : ports) {
             System.out.println(com);
         }
-        SerialPort serialPort = new SerialPort(PORT);
+        SerialPort serialPort = new SerialPort(port);
         new SerialPortReader(serialPort, windowFrame);
 
+    }
+
+    /**
+     *
+     * @param p The COMS Port
+     */
+    public void updatePort(String p) {
+        port = p;
+    }
+
+    /**
+     * Get available COM Ports
+     */
+    public String[] getAvailablePorts() {
+        return SerialPortList.getPortNames();
     }
 
     /**

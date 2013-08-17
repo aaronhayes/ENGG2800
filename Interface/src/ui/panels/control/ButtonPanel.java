@@ -2,6 +2,8 @@ package ui.panels.control;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemListener;
 
 /**
  * Panel to display button controls
@@ -12,16 +14,16 @@ public class ButtonPanel extends JPanel {
     private JButton stream;
     private JButton save;
     private JButton panorama;
-
+    private JComboBox jComboBox;
     /**
      * Basic constructor
      */
     public ButtonPanel() {
         super();
-
         stream = new JButton("Start Stream");
         save = new JButton("Save Image");
         panorama = new JButton("Panorama");
+        jComboBox = new JComboBox();
 
         stream.setVerticalAlignment(SwingConstants.CENTER);
         save.setVerticalAlignment(SwingConstants.CENTER);
@@ -30,6 +32,7 @@ public class ButtonPanel extends JPanel {
         add(stream);
         add(save);
         add(panorama);
+        add(jComboBox);
     }
 
     /**
@@ -57,6 +60,22 @@ public class ButtonPanel extends JPanel {
     }
 
     /**
+     * Add Item Listen To JComboBox
+     * @param a ItemListener to be added to Combo Box
+     */
+    public void addItemListenerCombo(ItemListener a) {
+        jComboBox.addItemListener(a);
+    }
+
+    /**
+     * Add Focus Listen To JComboBox
+     * @param a FocusListener to be added to Combo Box
+     */
+    public void addFocusListenerCombo(FocusListener a) {
+        jComboBox.addFocusListener(a);
+    }
+
+    /**
      * Change the text on the stream button
      * @param status boolean Status of the USB stream
      */
@@ -67,7 +86,30 @@ public class ButtonPanel extends JPanel {
             stream.setText("Start Stream");
         }
         stream.repaint();
+    }
 
+    /**
+     * Clear ComboBox
+     */
+    public void clearComboBox() {
+        jComboBox.removeAllItems();
+    }
+
+    /**
+     * Add strings to combo box
+     * @param s List of Strings to be added
+     */
+    public void addItems(String[] s) {
+        for (String com : s) {
+            jComboBox.addItem(com);
+        }
+    }
+
+    /**
+     * Get combo box value
+     */
+    public String getComboBoxValue() {
+        return (String) jComboBox.getSelectedItem();
     }
 }
 

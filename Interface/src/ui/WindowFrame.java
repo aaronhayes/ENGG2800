@@ -1,6 +1,8 @@
 package ui;
 
-import ui.action.handlers.*;
+import ui.listeners.focus.handlers.PortComboBoxFocusHandler;
+import ui.listeners.item.handlers.PortComboBoxItemHandler;
+import ui.listeners.action.event.handlers.*;
 import ui.panels.*;
 import usb.SerialPortConnection;
 
@@ -91,6 +93,8 @@ public class WindowFrame extends JFrame {
         new StreamButtonActionHandler(this);
         new SaveButtonActionHandler(this);
         new PanoramaButtonActionHandler(this);
+        new PortComboBoxItemHandler(this);
+        new PortComboBoxFocusHandler(this);
     }
 
     /**
@@ -124,5 +128,4 @@ public class WindowFrame extends JFrame {
     public SerialPortConnection getSerialPortConnection() {
         return serialPortConnection;
     }
-
 }
