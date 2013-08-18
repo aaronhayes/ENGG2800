@@ -36,6 +36,7 @@ public class WindowFrame extends JFrame {
         serialPortConnection = new SerialPortConnection(this);
         addPanels();
         setBounds(250, 150, 750, 450);
+        controlPanel.getButtonPanel().addItems(serialPortConnection.getAvailablePorts());
     }
 
     /**
