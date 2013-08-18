@@ -1,6 +1,5 @@
 package usb;
 
-import jssc.SerialPort;
 import jssc.SerialPortList;
 import ui.WindowFrame;
 import usb.event.listener.SerialPortReader;
@@ -10,26 +9,21 @@ import usb.event.listener.SerialPortReader;
  * @author Aaron Hayes
  */
 public class SerialPortConnection {
-    private String port = "COM3";
+    private String port = null;
     private boolean reading = false;
     private WindowFrame windowFrame;
+    private SerialPortReader serialPortReader;
+
     /**
      * Basic Constructor
      */
     public SerialPortConnection(WindowFrame wf){
         windowFrame = wf;
-
-        String[] ports = SerialPortList.getPortNames();
-        for (String com : ports) {
-            System.out.println(com);
-        }
-        SerialPort serialPort = new SerialPort(port);
-        new SerialPortReader(serialPort, windowFrame);
-
+        serialPortReader = new SerialPortReader(windowFrame);
     }
 
     /**
-     *
+     * Update the COMS ports string
      * @param p The COMS Port
      */
     public void updatePort(String p) {
@@ -48,6 +42,14 @@ public class SerialPortConnection {
      */
     public void toggle() {
         reading = !reading;
+
+        if (reading) {
+            if (port != null) {
+                serialPortReader.openPort(port);
+            }
+        } else {
+            serialPortReader.closePort();
+        }
     }
 
     /**

@@ -11,22 +11,12 @@ import ui.WindowFrame;
  */
 public class SerialPortReader implements SerialPortEventListener {
 
-    private SerialPort serialPort;
+    private SerialPort serialPort = null;
     private WindowFrame windowFrame;
-    private static int MASK = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
+    private static final int MASK = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
 
-    public SerialPortReader(SerialPort s, WindowFrame wf) {
-        serialPort = s;
+    public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
-        try {
-            serialPort.openPort();
-            serialPort.setParams(9600, 8, 1, 0);
-            serialPort.setEventsMask(MASK);
-            serialPort.addEventListener(this);
-        } catch (SerialPortException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /**
@@ -49,4 +39,34 @@ public class SerialPortReader implements SerialPortEventListener {
         }
     }
 
+    /**
+     * Close the serial Port
+     */
+    public void closePort() {
+        if (serialPort != null) {
+            try {
+                if (serialPort.isOpened()) {
+                    serialPort.closePort();
+                }
+            } catch (SerialPortException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Open a new serial port
+     * @param port Serial Port Connection
+     */
+    public void openPort(String port) {
+        serialPort = new SerialPort(port);
+        try {
+            serialPort.openPort();
+            serialPort.setParams(9600, 8, 1, 0);
+            serialPort.setEventsMask(MASK);
+            serialPort.addEventListener(this);
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
+    }
 }
