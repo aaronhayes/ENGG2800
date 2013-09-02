@@ -34,6 +34,7 @@ public class PanoramaButtonActionHandler {
                         windowFrame.getBitmapPanel().getBitmap(), windowFrame.getBitmapPanel().getBitmap(), 0, 0);
 
                 JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Save Panorama");
                 int returnVal = fc.showSaveDialog(windowFrame);
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
