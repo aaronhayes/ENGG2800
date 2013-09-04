@@ -1,15 +1,20 @@
 #include <avr/io.h>
 #include <util/twi.h>
+#include <util/delay.h>
 
+void openEEPROM(void);
+void startEEPROM(void);
+void stopEEPROM(void);
+void writeEEPROM(uint8_t);
+void writeAADRL(uint16_t);
+uint8_t readByteEEPROM(uint16_t addr);
 
-#DEFINE TRUE 1
-#DEFINE FALSE 0
-#DEFINE ADDRESS 2451
 
 /*
  * Open Connection
+ * Set bit rate to 400kHz
  */
-void openEEPROM() {
+void openEEPROM(void) {
 	TWSR = 0x00;
 	TWBR = 0x0C;
 
@@ -17,26 +22,26 @@ void openEEPROM() {
 }
 
 /*
- * Start Connection
+ * Start Signal
  */
-void startEEPROM() {
+void startEEPROM(void) {
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-	while (!(TWCR & (1 << TWINT));
+	while (!(TWCR & (1 << TWINT)));
 }
 
 /*
- * Stop Connection
+ * Stop Signal
  */
-void stopEEPROM() {
+void stopEEPROM(void) {
 	TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN);
-	while (TWCR & (1 << TWSRO));
+	while (TWCR & (1 << TWSTO));
 }
 
 
 /*
  *  Write
  */
-void writeEEPROM(unit8_t u) {
+void writeEEPROM(uint8_t u) {
 	TWDR = u;
 
 	// Transfer
@@ -49,7 +54,7 @@ void writeEEPROM(unit8_t u) {
 /*
  *  Write
  */
-void writeAADRL(unit16_t u) {
+void writeAADRL(uint16_t u) {
 	TWDR = u;
 
 	// Transfer
@@ -59,30 +64,30 @@ void writeAADRL(unit16_t u) {
 	while (!(TWCR & (1 << TWINT)));
 }
 
-unit8_t readByteEEPROM(unit16_t addr) {
-    unit8_t data;
+uint8_t readByteEEPROM(uint16_t addr) {
+    uint8_t data;
 
 	/* Write Address */
 	writeEEPROM(addr >> 8);
 
-    if ((TWSR & 0xF8) != 0x28) return FALSE;
+    if ((TWSR & 0xF8) != 0x28) return 0;
 
 
 	writeAADRL(addr);
 
-	if ((TWSR & 0xF8) != 0x28) return FALSE;
+	if ((TWSR & 0xF8) != 0x28) return 0;
 
 	startEEPROM();
-	if ((TWSR & 0xF8) != 0x10) return FALSE;
+	if ((TWSR & 0xF8) != 0x10) return 0;
 
-	writeEEPROM(0b10100001);
+	writeEEPROM(0xA1);
 
-    if ((TWSR & 0xF8) != 0x40) return FALSE;
+    if ((TWSR & 0xF8) != 0x40) return 0;
 
 
     TWCR = (1 << TWINT) | (1 << TWEN);
     while (!(TWCR & (1 << TWINT)));
-    if ((TWSR & 0xF8) != 0x58) return FALSE;
+    if ((TWSR & 0xF8) != 0x58) return 0;
 
     data = TWDR;
 
@@ -92,10 +97,19 @@ unit8_t readByteEEPROM(unit16_t addr) {
 }
 
 
-void main (int argc, char *[] argv) {
-	unit8_t data;
+int main (void) {
+	uint8_t data;
+	
+	_delay_ms(1000);
+	
 	openEEPROM();
-	data = readByteEEPROM(ADDRESS);
+	
+	// Read Data from Address 0x42
+	data = readByteEEPROM(0x42);
 
-    // DO SOMETHING WITH DATA!
+    DDRB = 0xFF;
+	
+	while (1) {
+		PORTB = data;
+	}
 }
