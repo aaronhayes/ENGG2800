@@ -1,5 +1,6 @@
 package ui;
 
+import image.TransmittedImage;
 import ui.listeners.focus.handlers.PortComboBoxFocusHandler;
 import ui.listeners.item.handlers.PortComboBoxItemHandler;
 import ui.listeners.action.event.handlers.*;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * A window for displaying the user interface panels
@@ -26,6 +28,8 @@ public class WindowFrame extends JFrame {
 
     private SerialPortConnection serialPortConnection;
 
+    private ArrayList<TransmittedImage> images;
+
     /**
      * Create a new Window Frame
      */
@@ -37,6 +41,7 @@ public class WindowFrame extends JFrame {
         addPanels();
         setBounds(250, 150, 750, 450);
         controlPanel.getButtonPanel().addItems(serialPortConnection.getAvailablePorts());
+        images = new ArrayList<TransmittedImage>();
     }
 
     /**
@@ -129,4 +134,13 @@ public class WindowFrame extends JFrame {
     public SerialPortConnection getSerialPortConnection() {
         return serialPortConnection;
     }
+
+    public ArrayList<TransmittedImage> getImages() {
+        return images;
+    }
+
+    public int getSliderValue() {
+        return sliderPanel.getSliderValue();
+    }
+
 }

@@ -1,5 +1,6 @@
 package ui.listeners.action.event.handlers;
 
+import image.processing.AdjustImageBrightness;
 import image.processing.JoinBufferedImages;
 import ui.WindowFrame;
 
@@ -30,26 +31,29 @@ public class PanoramaButtonActionHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                BufferedImage bi = JoinBufferedImages.join(windowFrame.getBitmapPanel().getBitmap(),
-                        windowFrame.getBitmapPanel().getBitmap(), windowFrame.getBitmapPanel().getBitmap(), 0, 0);
+                BufferedImage bi = JoinBufferedImages.join(windowFrame.getImages(), 3);
 
-                JFileChooser fc = new JFileChooser();
-                fc.setDialogTitle("Save Panorama");
-                int returnVal = fc.showSaveDialog(windowFrame);
+                if (bi != null) {
+                    int sliderValue = windowFrame.getSliderValue();
+                    BufferedImage image = AdjustImageBrightness.Adjust(bi, sliderValue);
 
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    JFileChooser fc = new JFileChooser();
+                    fc.setDialogTitle("Save Panorama");
+                    int returnVal = fc.showSaveDialog(windowFrame);
 
-                    File file;
-                    if (fc.getSelectedFile().getAbsolutePath().endsWith(EXT)) {
-                        file = fc.getSelectedFile();
-                    } else {
-                        file = new File(fc.getSelectedFile().getPath() + EXT);
-                    }
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file;
+                        if (fc.getSelectedFile().getAbsolutePath().endsWith(EXT)) {
+                            file = fc.getSelectedFile();
+                        } else {
+                            file = new File(fc.getSelectedFile().getPath() + EXT);
+                        }
 
-                    try {
-                        ImageIO.write(bi, "bmp", file);
-                    } catch (IOException err) {
-                        System.err.println("Unable to Save File");
+                        try {
+                            ImageIO.write(image, "bmp", file);
+                        } catch (IOException err) {
+                            System.err.println("Unable to Save File");
+                        }
                     }
                 }
             }
