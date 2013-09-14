@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
  */
 public class TransmittedImage {
 
+    public static final int IMG_WIDTH = 320;
+    public static final int IMG_HEIGHT = 240;
+
     private BufferedImage bufferedImage;
     private int feature1X;
     private int feature1Y;
@@ -38,7 +41,7 @@ public class TransmittedImage {
     }
 
     public void setFeature2X(int x) {
-        feature1X = x;
+        feature2X = x;
     }
 
     public int getXOffset(){

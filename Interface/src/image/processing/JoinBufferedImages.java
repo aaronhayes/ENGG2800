@@ -72,4 +72,27 @@ public class JoinBufferedImages {
 
         return result;
     }
+
+    /**
+     * Join an Matrix of Buffered Into one buffered Image
+     * @param images
+     * @param width
+     * @param height
+     * @return
+     */
+    public static BufferedImage stitchArray(BufferedImage[][] images, int width, int height) {
+        BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        Graphics graphics = result.getGraphics();
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                graphics.drawImage(images[y][x], x, y, null);
+            }
+        }
+        graphics.dispose();
+
+        return result;
+
+    }
 }
