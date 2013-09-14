@@ -135,12 +135,36 @@ public class WindowFrame extends JFrame {
         return serialPortConnection;
     }
 
+    /**
+     * Get List of Images Received from Transmission
+     * @return images
+     */
     public ArrayList<TransmittedImage> getImages() {
         return images;
     }
 
+    /**
+     * Get current slider value
+     * @return slider value
+     */
     public int getSliderValue() {
         return sliderPanel.getSliderValue();
     }
 
+    /**
+     * Add another image to the list
+     * @param image Transmitted Image to be added
+     */
+    public void addImage(TransmittedImage image) {
+        images.add(image);
+        bitmapPanel.updateImage(image.getBufferedImage());
+    }
+
+    /**
+     * Get the number of images that have been transmitted
+     * @return images.size()
+     */
+    public int getNumberTransmittedImages() {
+        return images.size();
+    }
 }

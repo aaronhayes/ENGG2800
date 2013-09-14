@@ -34,10 +34,17 @@ public class JoinBufferedImages {
         return result;
     }
 
+    /**
+     * Join a number of images from a list
+     * @param images List of TransmittedImages to be joint
+     * @param num number of images to be joint
+     * @return BufferedImage result of joining
+     */
     public static BufferedImage join(ArrayList<TransmittedImage> images, int num) {
         if (images.size() < num) return null;
         TransmittedImage[] transmittedImages = new TransmittedImage[num];
 
+        /* Get required dimensions for final image */
         int width = 0;
         int height = 0;
         for (int x = 0; x < num; x++) {

@@ -13,8 +13,8 @@ public class TransmittedImage {
     private int feature2X;
     private int feature2Y;
 
-    public TransmittedImage() {
-
+    public TransmittedImage(BufferedImage image) {
+        bufferedImage = image;
     }
 
     public void setBufferedImage(BufferedImage image) {
