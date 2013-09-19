@@ -2,7 +2,6 @@ package usb.event.listener;
 
 import image.TransmittedImage;
 import image.processing.ByteArrayToBufferedImage;
-import image.processing.JoinBufferedImages;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -20,13 +19,13 @@ public class SerialPortReader implements SerialPortEventListener {
     private WindowFrame windowFrame;
     private static final int MASK = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
 
-    private BufferedImage[][] imageMap;
+    private byte[] byteMap;
     private int currentX;
     private int currentY;
 
     public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
-        imageMap = new BufferedImage[TransmittedImage.IMG_HEIGHT][TransmittedImage.IMG_WIDTH];
+        byteMap = new byte[TransmittedImage.IMG_WIDTH * TransmittedImage.IMG_HEIGHT];
         currentX = 0;
         currentY = 0;
     }
@@ -38,18 +37,20 @@ public class SerialPortReader implements SerialPortEventListener {
         if (windowFrame.getSerialPortConnection().getStatus()) {
             if (event.isRXCHAR()) {
                 try {
-                    byte buffer[] = serialPort.readBytes(1);
+                    byte buffer[] = serialPort.readBytes(8);
                     if (buffer != null) {
-                        String read = new String(buffer);
-                        System.out.println(read);
-
-                        imageMap[currentY][currentX++] = ByteArrayToBufferedImage.Convert(buffer);
-
-                        if (currentX == TransmittedImage.IMG_WIDTH) {
-                            currentX = 0;
-                            currentY++;
-                            if (currentY == TransmittedImage.IMG_HEIGHT) {
-                                uploadImage();
+                        for (int b = 0; b < buffer.length; b++) {
+                            //int p = buffer[b] & 0xFF;
+                            //System.out.println(p + " (" + currentX + ", " + currentY + ")");
+                            byteMap[(currentY * TransmittedImage.IMG_WIDTH) + currentX] = buffer[b];
+                            currentX++;
+                            if (currentX >= TransmittedImage.IMG_WIDTH) {
+                                currentX = 0;
+                                currentY++;
+                                if (currentY >= TransmittedImage.IMG_HEIGHT) {
+                                    uploadImage();
+                                    break;
+                                }
                             }
                         }
                     }
@@ -67,9 +68,13 @@ public class SerialPortReader implements SerialPortEventListener {
     private void uploadImage() {
         currentY = 0;
         currentX = 0;
-
-        BufferedImage bufferedImage = JoinBufferedImages.stitchArray(imageMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
+        //BufferedImage bufferedImage = JoinBufferedImages.stitchArray(imageMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
+        BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(byteMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
         windowFrame.addImage(new TransmittedImage(bufferedImage));
+
+        for (int i = 0; i < TransmittedImage.IMG_WIDTH * TransmittedImage.IMG_HEIGHT; i++) {
+            byteMap[i] = 0;
+        }
     }
 
     /**
@@ -95,7 +100,7 @@ public class SerialPortReader implements SerialPortEventListener {
         serialPort = new SerialPort(port);
         try {
             serialPort.openPort();
-            serialPort.setParams(9600, 8, 1, 0);
+            serialPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
             serialPort.setEventsMask(MASK);
             serialPort.addEventListener(this);
         } catch (SerialPortException e) {

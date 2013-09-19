@@ -23,7 +23,7 @@ public class JoinBufferedImages {
      */
     public static BufferedImage join(BufferedImage a, BufferedImage b, BufferedImage c, int offsetA, int offsetB) {
         int width = a.getWidth() + b.getWidth() + c.getWidth() - offsetA - offsetB;
-        BufferedImage result = new BufferedImage(width, a.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage result = new BufferedImage(width, a.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
 
         Graphics g = result.getGraphics();
         g.drawImage(a, 0, 0, null);
@@ -59,7 +59,7 @@ public class JoinBufferedImages {
             }
         }
 
-        BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 
         Graphics g = result.getGraphics();
         g.drawImage(transmittedImages[0].getBufferedImage(), 0, 0, null);
