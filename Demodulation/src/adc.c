@@ -1,4 +1,5 @@
-#include <avr.io.h>
+#include <avr/io.h>
+#define F_CPU 1000000UL
 #include <util/delay.h>
 
 #define FOSC 8000000 // Clock Speed
@@ -29,7 +30,7 @@ unsigned int adc_read(void) {
 	while (i--) {
 		ADCSRA |= (1 << ADSC);
 		while (ADCSRA & (1 << ADSC));
-		adc_temp += ADC;
+		sample += ADC;
 		_delay_ms(15);
 	}
     /* Takes an average of 4 reads */
@@ -62,17 +63,11 @@ int main (void) {
 	unsigned int adc_data;
 
 	adc_setup();
-
-	USART_init(MICRO_UBRR);
+	USART_Init(MICRO_UBRR);
 
     while (1) {
     	adc_data = adc_read();
-
     	USART_Transmit(adc_data);
-
     	_delay_ms(100);
     }
-
-
-
 }
