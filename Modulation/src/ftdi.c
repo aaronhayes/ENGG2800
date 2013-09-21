@@ -4,13 +4,13 @@
  *
  * Created: 19/09/2013 11:47:39 AM
  *  Author: s4233846
- */ 
-
+ */
 
 #include <avr/io.h>
+#define F_CPU 1000000UL
 #include <util/delay.h>
 
-#define FOSC 8000000 // Clock Speed
+#define FOSC 1843200 // Clock Speed
 #define BAUD 19200
 #define MICRO_UBRR FOSC/16/BAUD-1
 
@@ -27,14 +27,14 @@ void USART_Transmit(unsigned int data) {
 void USART_Init( unsigned int ubrr)
 {
 	/*Set baud rate */
-	//UBRR0H = (unsigned char)(ubrr>>8);
-	UBRR0H = 0;
+	UBRR0H = (unsigned char)(ubrr>>8);
+	//UBRR0H = 0;
 	UBRR0L = (unsigned char)ubrr;
 	//UBRR0L = 25;
 	/* Enable receiver and transmitter */
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-	/* Set frame format: 8 N 1 */
-	UCSR0C = (3 << UCSZ00);
+	/* Set frame format: 8 data bits N 2 stop bit */
+	UCSR0C = (1<<USBS0)|(3<<UCSZ00);
 }
 int main( void )
 {
