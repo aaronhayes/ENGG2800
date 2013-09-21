@@ -1,6 +1,8 @@
 package ui.panels;
 
+import image.processing.AdjustImageBrightness;
 import image.processing.CopyBufferedImage;
+import ui.WindowFrame;
 
 import javax.swing.*;
 import java.awt.image.*;
@@ -14,16 +16,17 @@ public class BitmapPanel extends JPanel {
     private BufferedImage image;
     private BufferedImage display;
     private JLabel bitmap;
-
+    private WindowFrame windowFrame;
     /**
      * Basic constructor for a bitmap panel
      */
-    public BitmapPanel() {
+    public BitmapPanel(WindowFrame wf) {
         super();
         bitmap = new JLabel();
         bitmap.setSize(320, 240);
         add(bitmap);
         setSize(320, 240);
+        windowFrame = wf;
     }
 
     /**
@@ -57,7 +60,7 @@ public class BitmapPanel extends JPanel {
      */
     public void displayNewImage (BufferedImage i) {
         display = CopyBufferedImage.Copy(i);
-        bitmap.setIcon(new ImageIcon(display));
+        bitmap.setIcon(new ImageIcon(AdjustImageBrightness.AdjustGrayscale(i,windowFrame.getSliderValue())));
         bitmap.repaint();
     }
 }

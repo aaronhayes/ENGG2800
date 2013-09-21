@@ -67,7 +67,7 @@ public class WindowFrame extends JFrame {
      * Add the bitmap panel to the frame
      */
     private void addBitmapPanel() {
-        bitmapPanel = new BitmapPanel();
+        bitmapPanel = new BitmapPanel(this);
 
         try {
             URL url = getClass().getResource("Placeholder2.bmp");
@@ -148,7 +148,7 @@ public class WindowFrame extends JFrame {
      * @return slider value
      */
     public int getSliderValue() {
-        return sliderPanel.getSliderValue();
+        return (sliderPanel != null ? sliderPanel.getSliderValue() : 0);
     }
 
     /**
