@@ -14,7 +14,7 @@ unsigned int adc_read(void);
 
 
 void adc_setup(void) {
-	/* Enable ADC */
+	/* Enable ADC - ADC2 (PC2 PIN25)  */
 	ADMUX = (0 << REFS1) | (1 << REFS0) | (0 << ADLAR) | (0 << MUX2) | (1 << MUX1) | (0 << MUX0);
  	ADCSRA = (1 << ADEN) | (0 << ADSC)| (0 << ADATE)| (0 << ADIF)| (0 << ADIE)| (1 << ADPS2)| (0 << ADPS1) | (1 << ADPS0);
 
