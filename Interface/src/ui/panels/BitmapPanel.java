@@ -1,5 +1,6 @@
 package ui.panels;
 
+import image.TransmittedImage;
 import image.processing.AdjustImageBrightness;
 import image.processing.CopyBufferedImage;
 import ui.WindowFrame;
@@ -23,9 +24,9 @@ public class BitmapPanel extends JPanel {
     public BitmapPanel(WindowFrame wf) {
         super();
         bitmap = new JLabel();
-        bitmap.setSize(320, 240);
+        bitmap.setSize(TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
         add(bitmap);
-        setSize(320, 240);
+        setSize(TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
         windowFrame = wf;
     }
 

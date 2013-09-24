@@ -25,6 +25,7 @@ public class WindowFrame extends JFrame {
     private SliderPanel sliderPanel;
     private ControlPanel controlPanel;
     private TitlePanel titlePanel;
+    private ListPanel listPanel;
 
     private SerialPortConnection serialPortConnection;
 
@@ -52,8 +53,18 @@ public class WindowFrame extends JFrame {
         addBitmapPanel();
         addSliderPanel();
         addControlPanel();
+        addListPanel();
         pack();
     }
+
+    /**
+     * Add the List panel to the frame
+     */
+    private void addListPanel(){
+        listPanel = new ListPanel();
+        add(listPanel, BorderLayout.WEST);
+    }
+
 
     /**
      * Add the Title panel to the frame
@@ -157,6 +168,7 @@ public class WindowFrame extends JFrame {
      */
     public void addImage(TransmittedImage image) {
         images.add(image);
+        listPanel.addImageToList(getNumberTransmittedImages());
         bitmapPanel.updateImage(image.getBufferedImage());
     }
 
