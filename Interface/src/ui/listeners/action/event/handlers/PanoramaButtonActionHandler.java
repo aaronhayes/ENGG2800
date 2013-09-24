@@ -1,5 +1,6 @@
 package ui.listeners.action.event.handlers;
 
+import image.TransmittedImage;
 import image.processing.AdjustImageBrightness;
 import image.processing.JoinBufferedImages;
 import ui.WindowFrame;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Handles User actions on Panorama Button
@@ -31,11 +33,13 @@ public class PanoramaButtonActionHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                BufferedImage bi = JoinBufferedImages.join(windowFrame.getImages(), 3);
+                ArrayList<TransmittedImage> images = windowFrame.getPanoramaImages();
+                int num = windowFrame.getNumberSelected();
+                BufferedImage bi = JoinBufferedImages.join(images, num);
 
                 if (bi != null) {
                     int sliderValue = windowFrame.getSliderValue();
-                    BufferedImage image = AdjustImageBrightness.Adjust(bi, sliderValue);
+                    BufferedImage image = AdjustImageBrightness.AdjustGrayscale(bi, sliderValue);
 
                     JFileChooser fc = new JFileChooser();
                     fc.setDialogTitle("Save Panorama");
@@ -55,6 +59,8 @@ public class PanoramaButtonActionHandler {
                             System.err.println("Unable to Save File");
                         }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(windowFrame, "Please selected at least 3 Images from the list");
                 }
             }
         };

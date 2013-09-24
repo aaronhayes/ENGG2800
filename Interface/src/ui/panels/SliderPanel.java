@@ -15,8 +15,8 @@ import java.net.URL;
 public class SliderPanel extends JPanel {
 
     /* Setup Slider Parameters*/
-    private static final int BRIGHTNESS_MIN = -100;
-    private static final int BRIGHTNESS_MAX = 100;
+    private static final int BRIGHTNESS_MIN = -150;
+    private static final int BRIGHTNESS_MAX = 150;
     private static final int BRIGHTNESS_INIT = 0;
     private static final int TICK_SPACING = 10;
 

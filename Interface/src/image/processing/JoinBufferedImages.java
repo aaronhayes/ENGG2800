@@ -23,7 +23,7 @@ public class JoinBufferedImages {
      */
     public static BufferedImage join(BufferedImage a, BufferedImage b, BufferedImage c, int offsetA, int offsetB) {
         int width = a.getWidth() + b.getWidth() + c.getWidth() - offsetA - offsetB;
-        BufferedImage result = new BufferedImage(width, a.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage result = new BufferedImage(width, a.getHeight(), BufferedImage.TYPE_INT_RGB);
 
         Graphics g = result.getGraphics();
         g.drawImage(a, 0, 0, null);
@@ -41,6 +41,7 @@ public class JoinBufferedImages {
      * @return BufferedImage result of joining
      */
     public static BufferedImage join(ArrayList<TransmittedImage> images, int num) {
+        if (images == null) return null;
         if (images.size() < num) return null;
         TransmittedImage[] transmittedImages = new TransmittedImage[num];
 
@@ -59,6 +60,10 @@ public class JoinBufferedImages {
             }
         }
 
+
+        return join(transmittedImages[0].getBufferedImage(), transmittedImages[1].getBufferedImage(), transmittedImages[2].getBufferedImage(), 0, 0);
+        /*System.out.println("width = " + width + " height = " + height);
+
         BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 
         Graphics g = result.getGraphics();
@@ -66,11 +71,11 @@ public class JoinBufferedImages {
         int currentWidth = transmittedImages[0].getWidth();
         for (int x = 1; x < num; x++) {
             g.drawImage(transmittedImages[x].getBufferedImage(), currentWidth - transmittedImages[x].getXOffset(), 0, null);
-            currentWidth += (transmittedImages[x].getWidth() - transmittedImages[x].getWidth());
+            currentWidth += (transmittedImages[x].getWidth() - transmittedImages[x].getXOffset());
         }
         g.dispose();
 
-        return result;
+        return transmittedImages[0].getBufferedImage();   */
     }
 
     /**

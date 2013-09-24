@@ -4,6 +4,7 @@ import image.TransmittedImage;
 import ui.listeners.focus.handlers.PortComboBoxFocusHandler;
 import ui.listeners.item.handlers.PortComboBoxItemHandler;
 import ui.listeners.action.event.handlers.*;
+import ui.listeners.list.handlers.ListSelectionItemHandler;
 import ui.panels.*;
 import usb.SerialPortConnection;
 
@@ -30,6 +31,7 @@ public class WindowFrame extends JFrame {
     private SerialPortConnection serialPortConnection;
 
     private ArrayList<TransmittedImage> images;
+    private ArrayList<Integer> selectedImages;
 
     /**
      * Create a new Window Frame
@@ -43,6 +45,7 @@ public class WindowFrame extends JFrame {
         setBounds(250, 150, 750, 450);
         controlPanel.getButtonPanel().addItems(serialPortConnection.getAvailablePorts());
         images = new ArrayList<TransmittedImage>();
+        selectedImages = new ArrayList<Integer>();
     }
 
     /**
@@ -63,6 +66,7 @@ public class WindowFrame extends JFrame {
     private void addListPanel(){
         listPanel = new ListPanel();
         add(listPanel, BorderLayout.WEST);
+        new ListSelectionItemHandler(this);
     }
 
 
@@ -139,6 +143,13 @@ public class WindowFrame extends JFrame {
     }
 
     /**
+     * Get List of Transmitted Images
+     */
+    public ListPanel getList() {
+        return listPanel;
+    }
+
+    /**
      * Get SerialPortListener
      * @return SerialPortListener
      */
@@ -169,7 +180,10 @@ public class WindowFrame extends JFrame {
     public void addImage(TransmittedImage image) {
         images.add(image);
         listPanel.addImageToList(getNumberTransmittedImages());
+        listPanel.setSelection(listPanel.getListSize() - 1);
         bitmapPanel.updateImage(image.getBufferedImage());
+        listPanel.clearSelections();
+        listPanel.setSelection(listPanel.getListSize() - 1);
     }
 
     /**
@@ -178,5 +192,53 @@ public class WindowFrame extends JFrame {
      */
     public int getNumberTransmittedImages() {
         return images.size();
+    }
+
+    /**
+     *
+     * @param i array location of Transmited Image
+     */
+    public void putCurrentSelectedImage(int i) {
+        if (!selectedImages.contains(i)) {
+            selectedImages.add(i);
+        }
+    }
+
+    /**
+     * Clear currently selected images
+     */
+    public void clearCurrentSelectedImages() {
+        selectedImages.clear();
+    }
+
+    /**
+     *  Update Image display based on selection in list box
+     */
+    public void selectedNewImage() {
+        try {
+            int image = selectedImages.get(selectedImages.size() - 1);
+            bitmapPanel.updateImage(images.get(image).getBufferedImage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //TODO
+        } catch (IndexOutOfBoundsException e) {
+            //TODO
+        }
+    }
+
+    public ArrayList<TransmittedImage> getPanoramaImages() {
+        ArrayList<TransmittedImage> panoramaImages = new ArrayList<TransmittedImage>();
+        for (int i : selectedImages) {
+            try {
+                panoramaImages.add(images.get(i));
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+        bitmapPanel.updateImage(panoramaImages.get(1).getBufferedImage());
+        return panoramaImages;
+    }
+
+    public int getNumberSelected() {
+        return selectedImages.size();
     }
 }

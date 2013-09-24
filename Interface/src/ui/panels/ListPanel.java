@@ -1,6 +1,9 @@
 package ui.panels;
 
+import ui.listeners.list.handlers.ListSelectionItemHandler;
+
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 /**
@@ -12,6 +15,7 @@ public class ListPanel extends JPanel {
     private DefaultListModel listModel;
     private JList list;
     private JScrollPane listScroller;
+    private ListSelectionModel listSelectionModel;
 
     /**
      * Basic constructor
@@ -30,12 +34,30 @@ public class ListPanel extends JPanel {
         list.setVisibleRowCount(-1);
 
         listScroller = new JScrollPane(list);
-        listScroller.setPreferredSize(new Dimension(250, 80));
+        listScroller.setPreferredSize(new Dimension(250, 100));
+
+        listSelectionModel = list.getSelectionModel();
 
         add(list);
     }
 
     public void addImageToList(int i) {
         listModel.addElement("Transmitted Image " + i);
+    }
+
+    public void clearSelections() {
+        listSelectionModel.clearSelection();
+    }
+
+    public void setSelection(int i) {
+        listSelectionModel.setSelectionInterval(i, i);
+    }
+
+    public int getListSize() {
+        return listModel.getSize();
+    }
+
+    public void addActionHandler(ListSelectionListener listener) {
+        listSelectionModel.addListSelectionListener(listener);
     }
 }

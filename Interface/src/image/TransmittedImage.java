@@ -29,7 +29,7 @@ public class TransmittedImage {
     }
 
     public int getFeature1X() {
-        return feature1X;
+        return 0;
     }
 
     public void setFeature1X(int x) {
@@ -37,7 +37,7 @@ public class TransmittedImage {
     }
 
     public int getFeature2X() {
-        return feature2X;
+        return 0;
     }
 
     public void setFeature2X(int x) {
