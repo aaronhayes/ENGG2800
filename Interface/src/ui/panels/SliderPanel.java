@@ -61,7 +61,7 @@ public class SliderPanel extends JPanel {
     /**
      * Add change listener to slider
      */
-    public void addChangeListner(ChangeListener l) {
+    public void addChangeListener(ChangeListener l) {
         slider.addChangeListener(l);
     }
 

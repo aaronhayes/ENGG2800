@@ -36,6 +36,6 @@ public class SliderActionHandler {
             }
         };
 
-        sliderPanel.addChangeListner(cl);
+        sliderPanel.addChangeListener(cl);
     }
 }
