@@ -26,7 +26,7 @@ void adc_setup(void) {
 
 unsigned int adc_read(void) {
 	int i = 4;
-	unsigned sample = 0;
+	unsigned int sample = 0;
 	while (i--) {
 		ADCSRA |= (1 << ADSC);
 		while (ADCSRA & (1 << ADSC));
