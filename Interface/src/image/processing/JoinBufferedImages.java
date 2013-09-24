@@ -60,10 +60,6 @@ public class JoinBufferedImages {
             }
         }
 
-
-        return join(transmittedImages[0].getBufferedImage(), transmittedImages[1].getBufferedImage(), transmittedImages[2].getBufferedImage(), 0, 0);
-        /*System.out.println("width = " + width + " height = " + height);
-
         BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 
         Graphics g = result.getGraphics();
@@ -75,15 +71,15 @@ public class JoinBufferedImages {
         }
         g.dispose();
 
-        return transmittedImages[0].getBufferedImage();   */
+        return result;
     }
 
     /**
      * Join an Matrix of Buffered Into one buffered Image
-     * @param images
-     * @param width
-     * @param height
-     * @return
+     * @param images BufferedImage Array of Arrays
+     * @param width Width of Buffered Image
+     * @param height Height of Buffered Image
+     * @return A joint buffered image with dimensions (width, height)
      */
     public static BufferedImage stitchArray(BufferedImage[][] images, int width, int height) {
         BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
