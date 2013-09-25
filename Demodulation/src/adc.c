@@ -2,9 +2,11 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 
-#define FOSC 1843200 // Clock Speed
+#define FOSC 8000000 // Clock Speed
 #define BAUD 19200
 #define MICRO_UBRR FOSC/16/BAUD-1
+
+/* Ensure clockdiv8 fuse is not set */
 
 void USART_Transmit(unsigned int data);
 void USART_Init(unsigned int ubrr);
