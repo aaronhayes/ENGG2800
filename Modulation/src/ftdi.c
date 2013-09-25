@@ -1,6 +1,7 @@
 /*
  * Basic AVR code to send data over serial.
- *  Works with 2400 baud atm
+ *  Works with 19200 baud atm
+ *  Ensure ClockDiv8 fuse is set to false
  *
  * Created: 19/09/2013 11:47:39 AM
  *  Author: s4233846
@@ -10,7 +11,7 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 
-#define FOSC 1843200 // Clock Speed
+#define FOSC 8000000 // Clock Speed
 #define BAUD 19200
 #define MICRO_UBRR FOSC/16/BAUD-1
 
@@ -27,10 +28,10 @@ void USART_Transmit(unsigned int data) {
 void USART_Init( unsigned int ubrr)
 {
 	/*Set baud rate */
-	UBRR0H = (unsigned char)(ubrr>>8);
-	//UBRR0H = 0;
-	UBRR0L = (unsigned char)ubrr;
-	//UBRR0L = 25;
+	//UBRR0H = (unsigned char)(ubrr>>8);
+	UBRR0H = 0;
+	//UBRR0L = (unsigned char)ubrr;
+	UBRR0L = 25;
 	/* Enable receiver and transmitter */
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 	/* Set frame format: 8 data bits N 2 stop bit */
@@ -39,9 +40,9 @@ void USART_Init( unsigned int ubrr)
 int main( void )
 {
 	USART_Init(MICRO_UBRR);
-	
+
 	while (1) {
-		USART_Transmit(0x69);
+		USART_Transmit(0xFF);
 		_delay_ms(150);
 	}		
 }
