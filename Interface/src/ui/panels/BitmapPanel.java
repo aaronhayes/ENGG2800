@@ -64,4 +64,8 @@ public class BitmapPanel extends JPanel {
         bitmap.setIcon(new ImageIcon(AdjustImageBrightness.AdjustGrayscale(i,windowFrame.getSliderValue())));
         bitmap.repaint();
     }
+
+    public JLabel getBitmapLabel() {
+        return bitmap;
+    }
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import image.TransmittedImage;
+import image.processing.EdgeDetection;
 import ui.listeners.focus.handlers.PortComboBoxFocusHandler;
 import ui.listeners.item.handlers.PortComboBoxItemHandler;
 import ui.listeners.action.event.handlers.*;
@@ -32,6 +33,9 @@ public class WindowFrame extends JFrame {
 
     private ArrayList<TransmittedImage> images;
     private ArrayList<Integer> selectedImages;
+
+    private TransmittedImage currentImage;
+    private boolean edge = false;
 
     /**
      * Create a new Window Frame
@@ -116,6 +120,7 @@ public class WindowFrame extends JFrame {
         new PanoramaButtonActionHandler(this);
         new PortComboBoxItemHandler(this);
         new PortComboBoxFocusHandler(this);
+        new BitmapActionHandler(this);
     }
 
     /**
@@ -178,12 +183,15 @@ public class WindowFrame extends JFrame {
      * @param image Transmitted Image to be added
      */
     public void addImage(TransmittedImage image) {
+        EdgeDetection.dydx(image, this);
         images.add(image);
         listPanel.addImageToList(getNumberTransmittedImages());
         listPanel.setSelection(listPanel.getListSize() - 1);
         bitmapPanel.updateImage(image.getBufferedImage());
         listPanel.clearSelections();
         listPanel.setSelection(listPanel.getListSize() - 1);
+        currentImage = image;
+        edge = false;
     }
 
     /**
@@ -195,8 +203,8 @@ public class WindowFrame extends JFrame {
     }
 
     /**
-     *
-     * @param i array location of Transmited Image
+     * Update Selection list based on JList selection
+     * @param i array location of Transmitted Image
      */
     public void putCurrentSelectedImage(int i) {
         if (!selectedImages.contains(i)) {
@@ -218,6 +226,8 @@ public class WindowFrame extends JFrame {
         try {
             int image = selectedImages.get(selectedImages.size() - 1);
             bitmapPanel.updateImage(images.get(image).getBufferedImage());
+            currentImage = images.get(image);
+            edge = false;
         } catch (ArrayIndexOutOfBoundsException e) {
             //TODO
         } catch (IndexOutOfBoundsException e) {
@@ -235,10 +245,20 @@ public class WindowFrame extends JFrame {
             }
         }
         bitmapPanel.updateImage(panoramaImages.get(1).getBufferedImage());
+        edge = false;
         return panoramaImages;
     }
 
     public int getNumberSelected() {
         return selectedImages.size();
+    }
+
+    public void swapEdgeDisplay() {
+        if (edge) {
+            bitmapPanel.updateImage(currentImage.getBufferedImage());
+        } else {
+            bitmapPanel.updateImage(currentImage.getEdgeImage());
+        }
+        edge = !edge;
     }
 }

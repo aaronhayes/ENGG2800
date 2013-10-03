@@ -11,6 +11,9 @@ public class TransmittedImage {
     public static final int IMG_HEIGHT = 240;
 
     private BufferedImage bufferedImage;
+    private BufferedImage edgeImage;
+    private double[] magnitude;
+    private double[] angle;
     private int feature1X;
     private int feature1Y;
     private int feature2X;
@@ -18,6 +21,14 @@ public class TransmittedImage {
 
     public TransmittedImage(BufferedImage image) {
         bufferedImage = image;
+    }
+
+    public void setEdgeImage(BufferedImage edge) {
+        edgeImage = edge;
+    }
+
+    public BufferedImage getEdgeImage() {
+        return edgeImage;
     }
 
     public void setBufferedImage(BufferedImage image) {
@@ -54,5 +65,13 @@ public class TransmittedImage {
 
     public int getHeight() {
         return bufferedImage.getHeight();
+    }
+
+    public void setAngle(double[] a) {
+        angle = a;
+    }
+
+    public void setMagnitude(double[] m) {
+        magnitude = m;
     }
 }
