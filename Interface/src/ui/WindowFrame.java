@@ -117,6 +117,7 @@ public class WindowFrame extends JFrame {
         add(controlPanel, BorderLayout.SOUTH);
         new StreamButtonActionHandler(this);
         new SaveButtonActionHandler(this);
+        new LoadButtonActionHandler(this);
         new PanoramaButtonActionHandler(this);
         new PortComboBoxItemHandler(this);
         new PortComboBoxFocusHandler(this);
