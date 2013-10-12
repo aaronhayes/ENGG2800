@@ -184,7 +184,7 @@ public class WindowFrame extends JFrame {
      * @param image Transmitted Image to be added
      */
     public void addImage(TransmittedImage image) {
-        EdgeDetection.dydx(image, this);
+        System.out.println("added image");
         images.add(image);
         listPanel.addImageToList(getNumberTransmittedImages());
         listPanel.setSelection(listPanel.getListSize() - 1);
@@ -193,6 +193,15 @@ public class WindowFrame extends JFrame {
         listPanel.setSelection(listPanel.getListSize() - 1);
         currentImage = image;
         edge = false;
+        EdgeDetection.dydx(image, this, (getNumberTransmittedImages() > 2 ? true : false));
+
+        controlPanel.getInfoPanel().clearList();
+        if (image.getStarsPoint() != null) {
+            controlPanel.getInfoPanel().addFeature("Southern Cross (Center): ", image.getStarsPoint().getX(), image.getStarsPoint().getY());
+        }
+        if (image.getEarthPoint() != null) {
+            controlPanel.getInfoPanel().addFeature("Earth (Center): ", image.getEarthPoint().getX(), image.getEarthPoint().getY());
+        }
     }
 
     /**
@@ -229,6 +238,13 @@ public class WindowFrame extends JFrame {
             bitmapPanel.updateImage(images.get(image).getBufferedImage());
             currentImage = images.get(image);
             edge = false;
+            controlPanel.getInfoPanel().clearList();
+            if (currentImage.getStarsPoint() != null) {
+                controlPanel.getInfoPanel().addFeature("Southern Cross (Center): ", currentImage.getStarsPoint().getX(), currentImage.getStarsPoint().getY());
+            }
+            if (currentImage.getEarthPoint() != null) {
+                controlPanel.getInfoPanel().addFeature("Earth (Center): ", currentImage.getEarthPoint().getX(), currentImage.getEarthPoint().getY());
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             //TODO
         } catch (IndexOutOfBoundsException e) {
@@ -261,5 +277,13 @@ public class WindowFrame extends JFrame {
             bitmapPanel.updateImage(currentImage.getEdgeImage());
         }
         edge = !edge;
+    }
+
+    public TransmittedImage getStars() {
+        return images.get(0);
+    }
+
+    public TransmittedImage getEarth() {
+        return images.get(1);
     }
 }
