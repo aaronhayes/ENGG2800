@@ -35,7 +35,14 @@ public class PanoramaButtonActionHandler {
 
                 ArrayList<TransmittedImage> images = windowFrame.getPanoramaImages();
                 int num = windowFrame.getNumberSelected();
-                BufferedImage bi = JoinBufferedImages.join(images, num);
+
+                BufferedImage bi;
+                if (num == 3) {
+                    bi = JoinBufferedImages.stitchThreeTransmittedImages(images.get(0), images.get(1), images.get(2));
+
+                } else {
+                    bi = JoinBufferedImages.join(images, num);
+                }
 
                 if (bi != null) {
                     int sliderValue = windowFrame.getSliderValue();
@@ -60,7 +67,7 @@ public class PanoramaButtonActionHandler {
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(windowFrame, "Please selected at least 3 Images from the list");
+                    JOptionPane.showMessageDialog(windowFrame, "Unable to Join Selected Images.");
                 }
             }
         };

@@ -1,7 +1,5 @@
 package ui.panels;
 
-import ui.listeners.list.handlers.ListSelectionItemHandler;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -34,6 +32,7 @@ public class ListPanel extends JPanel {
         list.setVisibleRowCount(-1);
 
         listScroller = new JScrollPane(list);
+        list.setPrototypeCellValue("Transmitted Image");
         listScroller.setPreferredSize(new Dimension(250, 100));
 
         listSelectionModel = list.getSelectionModel();
@@ -42,7 +41,11 @@ public class ListPanel extends JPanel {
     }
 
     public void addImageToList(int i) {
-        listModel.addElement("Transmitted Image " + i);
+        switch (i) {
+            case 1: listModel.addElement("Southern-Cross"); break;
+            case 2: listModel.addElement("Earth"); break;
+            default: listModel.addElement("Image " + i);
+        }
     }
 
     public void clearSelections() {

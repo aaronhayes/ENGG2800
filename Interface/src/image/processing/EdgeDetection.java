@@ -20,7 +20,7 @@ public class EdgeDetection {
 
     }
 
-    public static void dydx(TransmittedImage image, WindowFrame windowFrame) {
+    public static void dydx(TransmittedImage image, WindowFrame windowFrame, boolean findPoints) {
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getBufferedImage().getRaster();
@@ -52,12 +52,15 @@ public class EdgeDetection {
 
                 int dx = Math.abs(averagePixel(pixelArray2) - averagePixel(pixelArray1));
                 int dy = Math.abs(averagePixel(pixelArray4) - averagePixel(pixelArray3));
+                int dxA = (averagePixel(pixelArray2) - averagePixel(pixelArray1));
+                int dyA = (averagePixel(pixelArray4) - averagePixel(pixelArray3));
 
 
-                //bytes[(y * width) + x] = (byte) (Math.sqrt(dx ^ 2 + dy ^ 2));
+                //bytes[(y * width) + x] = (byte) (Math.sqrt((dx + dy) ^ 2));
                 bytes[(y * width) + x] = (byte) (dx + dy);
                 magnitude[(y * width) + x] = (Math.sqrt(dx ^ 2 + dy ^ 2));
-                angle[(y * width) + x] = Math.atan2(dy,dx);
+                angle[(y * width) + x] = Math.atan2(dyA, dxA) * (180 / Math.PI);
+                angle[(y * width) + x] = (angle[(y * width) + x] < 0 ? 360 + angle[(y * width) + x] : angle[(y * width) + x]);
             }
         }
 
@@ -66,6 +69,13 @@ public class EdgeDetection {
         BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(bytes, width, height);
 
         image.setEdgeImage(bufferedImage);
+        image.createHistogram();
+
+        if (findPoints) {
+            System.out.println("Finding Points");
+            image.findStars(windowFrame.getStars());
+            image.findEarth(windowFrame.getEarth());
+        }
     }
 
     private static int averagePixel(int[] pixels) {

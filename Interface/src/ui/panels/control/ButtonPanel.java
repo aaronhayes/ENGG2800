@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
  */
 public class ButtonPanel extends JPanel {
 
+    private JButton load;
     private JButton stream;
     private JButton save;
     private JButton panorama;
@@ -20,19 +21,30 @@ public class ButtonPanel extends JPanel {
      */
     public ButtonPanel() {
         super();
+        load = new JButton("Load Image");
         stream = new JButton("Start Stream");
         save = new JButton("Save Image");
         panorama = new JButton("Panorama");
         jComboBox = new JComboBox();
 
+        load.setVerticalAlignment(SwingConstants.CENTER);
         stream.setVerticalAlignment(SwingConstants.CENTER);
         save.setVerticalAlignment(SwingConstants.CENTER);
         panorama.setVerticalAlignment(SwingConstants.CENTER);
 
+        add(load);
         add(stream);
         add(save);
         add(panorama);
         add(jComboBox);
+    }
+
+    /**
+     * Add Action Listen To Load Button
+     * @param a ActionListener to be added to load button
+     */
+    public void addActionListenerLoad(ActionListener a) {
+        load.addActionListener(a);
     }
 
     /**

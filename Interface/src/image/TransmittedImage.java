@@ -1,6 +1,11 @@
 package image;
 
+import com.sun.org.apache.xerces.internal.xinclude.XInclude11TextReader;
+import image.processing.SIFT;
+import sun.font.GlyphList;
+
 import java.awt.image.BufferedImage;
+
 
 /**
  * @author Aaron Hayes
@@ -9,18 +14,28 @@ public class TransmittedImage {
 
     public static final int IMG_WIDTH = 320;
     public static final int IMG_HEIGHT = 240;
+    private static final int HIST_ARRAY_SIZE = ((IMG_HEIGHT * IMG_WIDTH) / (Histogram.SIZE * Histogram.SIZE));
 
     private BufferedImage bufferedImage;
     private BufferedImage edgeImage;
     private double[] magnitude;
     private double[] angle;
+
+    private Point stars;
+    private Point earth;
+
     private int feature1X;
     private int feature1Y;
     private int feature2X;
     private int feature2Y;
 
+    private Histogram[] histograms;
+
     public TransmittedImage(BufferedImage image) {
         bufferedImage = image;
+
+        System.out.println(HIST_ARRAY_SIZE);
+        histograms = new Histogram[HIST_ARRAY_SIZE];
     }
 
     public void setEdgeImage(BufferedImage edge) {
@@ -71,7 +86,44 @@ public class TransmittedImage {
         angle = a;
     }
 
+    public double[] getAngleArray() {
+        return angle;
+    }
+
+    public double[] getMagnitudeArray() {
+        return magnitude;
+    }
+
     public void setMagnitude(double[] m) {
         magnitude = m;
+    }
+
+    public void createHistogram() {
+        SIFT.createHistograms(this);
+    }
+
+    public void addHistogram(Histogram histogram1, int x, int y) {
+        int xIn = x / Histogram.SIZE;
+        int yIn = y / Histogram.SIZE;
+        histograms[(yIn * (IMG_WIDTH / Histogram.SIZE)) + xIn] = histogram1;
+    }
+
+    public Histogram[] getHistograms() {
+        return histograms;
+    }
+
+    public void findStars(TransmittedImage star) {
+        this.stars = SIFT.compare(this, star);
+    }
+
+    public void findEarth(TransmittedImage earth) {
+        this.earth = SIFT.compare(this, earth);
+    }
+
+    public Point getStarsPoint() {
+        return stars;
+    }
+    public Point getEarthPoint() {
+        return earth;
     }
 }

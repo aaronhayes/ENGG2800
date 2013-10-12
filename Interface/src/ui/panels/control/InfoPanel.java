@@ -21,8 +21,8 @@ public class InfoPanel extends JPanel {
         list.setBackground(UIManager.getColor("Panel.background"));
         list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         add(list);
-        addFeature("Feature", 0, 0);
-        addFeature("Random Fake Feature", 0, 0);
+        //addFeature("Feature", 0, 0);
+        //addFeature("Random Fake Feature", 0, 0);
     }
 
     /**
