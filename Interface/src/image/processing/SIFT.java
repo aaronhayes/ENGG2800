@@ -196,4 +196,54 @@ public class SIFT {
 
         return result;
     }
+
+
+    public static Point[] compareMerge(TransmittedImage image1, TransmittedImage image2) {
+
+        double best = 0;
+        Histogram secondFit = null;
+        Histogram bestFit = null;
+        Histogram[] histogramsMainImage = image1.getHistograms();
+        Histogram[] histogramsSecondImage = image2.getHistograms();
+
+        Point[] result = new Point[2];
+
+        for (int y = 0; y < (TransmittedImage.IMG_HEIGHT/ Histogram.SIZE); y++) {
+            for (int x = 0; x < (TransmittedImage.IMG_WIDTH / Histogram.SIZE); x++) {
+                Histogram histogram1 = histogramsMainImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + x];
+
+                if (histogram1.isKeypoint()) {
+                    for (int y2 = 0; y2 < (TransmittedImage.IMG_HEIGHT/ Histogram.SIZE); y2++) {
+                        for (int x2 = 0; x2 < (TransmittedImage.IMG_WIDTH / Histogram.SIZE); x2++) {
+                            Histogram histogram2 = histogramsSecondImage[(y2 * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + x2];
+
+                            if (histogram2.isKeypoint()) {
+
+                                double match = compareHistogram(histogram1, histogram2);
+
+
+                                if (match > best) {
+                                    best = match;
+                                    secondFit = histogram2;
+                                    bestFit = histogram1;
+                                }
+
+
+
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        if (best > 65.00) {
+            result[0] = new Point(bestFit.getX(), bestFit.getY());
+            result[1] = new Point(secondFit.getX(), secondFit.getY());
+        }
+
+        return result;
+    }
 }

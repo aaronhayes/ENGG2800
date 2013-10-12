@@ -42,7 +42,7 @@ public class Histogram {
             //System.out.println(values[x]);
         }
         //System.out.println("{" + x + "," + y + ") TOTAL MAG = " + totalMagnitude);
-        if (totalMagnitude > 30.0) keypoint = true;
+        if (totalMagnitude > 10.0) keypoint = true;
         this.values = values;
 
         for (int i = 0; i < values.length; i++) {
