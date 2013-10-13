@@ -1,9 +1,7 @@
 package image;
 
-import com.sun.org.apache.xerces.internal.xinclude.XInclude11TextReader;
 import image.processing.CopyBufferedImage;
 import image.processing.SIFT;
-import sun.font.GlyphList;
 
 import java.awt.image.BufferedImage;
 
