@@ -46,7 +46,7 @@ public class WindowFrame extends JFrame {
         new WindowActionHandler(this);
         serialPortConnection = new SerialPortConnection(this);
         addPanels();
-        setBounds(250, 150, 750, 450);
+        setBounds(250, 150, 800, 500);
         controlPanel.getButtonPanel().addItems(serialPortConnection.getAvailablePorts());
         images = new ArrayList<TransmittedImage>();
         selectedImages = new ArrayList<Integer>();

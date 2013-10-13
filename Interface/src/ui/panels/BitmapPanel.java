@@ -60,7 +60,7 @@ public class BitmapPanel extends JPanel {
      * @param i BufferedImage
      */
     public void displayNewImage (BufferedImage i) {
-        display = CopyBufferedImage.Copy(i);
+        display = CopyBufferedImage.copy(i);
         bitmap.setIcon(new ImageIcon(AdjustImageBrightness.AdjustGrayscale(i,windowFrame.getSliderValue())));
         bitmap.repaint();
     }

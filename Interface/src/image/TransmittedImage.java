@@ -1,6 +1,7 @@
 package image;
 
 import com.sun.org.apache.xerces.internal.xinclude.XInclude11TextReader;
+import image.processing.CopyBufferedImage;
 import image.processing.SIFT;
 import sun.font.GlyphList;
 
@@ -32,7 +33,7 @@ public class TransmittedImage {
     private Histogram[] histograms;
 
     public TransmittedImage(BufferedImage image) {
-        bufferedImage = image;
+        bufferedImage = CopyBufferedImage.copy(image);
 
         System.out.println(HIST_ARRAY_SIZE);
         histograms = new Histogram[HIST_ARRAY_SIZE];
