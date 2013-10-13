@@ -37,7 +37,7 @@ public class SerialPortReader implements SerialPortEventListener {
         if (windowFrame.getSerialPortConnection().getStatus()) {
             if (event.isRXCHAR()) {
                 try {
-                    byte buffer[] = serialPort.readBytes(8);
+                    byte buffer[] = serialPort.readBytes(32);
                     if (buffer != null) {
                         for (int b = 0; b < buffer.length; b++) {
                             //int p = buffer[b] & 0xFF;
@@ -100,7 +100,7 @@ public class SerialPortReader implements SerialPortEventListener {
         serialPort = new SerialPort(port);
         try {
             serialPort.openPort();
-            serialPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+            serialPort.setParams(SerialPort.BAUDRATE_19200, SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
             serialPort.setEventsMask(MASK);
             serialPort.addEventListener(this);
         } catch (SerialPortException e) {

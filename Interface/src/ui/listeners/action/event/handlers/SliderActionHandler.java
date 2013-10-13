@@ -30,7 +30,7 @@ public class SliderActionHandler {
                 int val = sliderPanel.getSliderValue();
                 /* Check if slider value is divisible by 10 */
                 if (val % 10 == 0) {
-                    BufferedImage img = CopyBufferedImage.Copy(windowFrame.getBitmapPanel().getBitmap());
+                    BufferedImage img = CopyBufferedImage.copy(windowFrame.getBitmapPanel().getBitmap());
                     windowFrame.getBitmapPanel().displayNewImage(AdjustImageBrightness.AdjustGrayscale(img, val));
                 }
             }
