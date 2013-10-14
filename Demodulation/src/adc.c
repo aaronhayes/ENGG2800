@@ -8,40 +8,40 @@
 
 /* Ensure clockdiv8 fuse is not set */
 
-void USART_Transmit(unsigned int data);
-void USART_Init(unsigned int ubrr);
+void USART_Transmit(uint8_t data);
+void USART_Init(uint8_t ubrr);
 void adc_setup(void);
-unsigned int adc_read(void);
+uint8_t adc_read(void);
 
 
 
 void adc_setup(void) {
 	/* Enable ADC - ADC2 (PC2 PIN25)  */
 	ADMUX = (0 << REFS1) | (1 << REFS0) | (0 << ADLAR) | (0 << MUX2) | (1 << MUX1) | (0 << MUX0);
- 	ADCSRA = (1 << ADEN) | (0 << ADSC)| (0 << ADATE)| (0 << ADIF)| (0 << ADIE)| (1 << ADPS2)| (0 << ADPS1) | (1 << ADPS0);
+	ADCSRA = (1 << ADEN) | (0 << ADSC)| (0 << ADATE)| (0 << ADIF)| (0 << ADIE)| (1 << ADPS2)| (0 << ADPS1) | (1 << ADPS0);
 
- 	/* Enable ADC interrupt overflow and clock */
- 	TIMSK1 |= (1 << TOIE1);
- 	TCCR1B |= (1 << CS11) | (1 << CS10);
+	/* Enable ADC interrupt overflow and clock */
+	TIMSK1 |= (1 << TOIE1);
+	TCCR1B |= (1 << CS11) | (1 << CS10);
 
 }
 
-unsigned int adc_read(void) {
+uint8_t adc_read(void) {
 	int i = 4;
-	unsigned int sample = 0;
+	uint16_t sample = 0;
 	while (i--) {
 		ADCSRA |= (1 << ADSC);
 		while (ADCSRA & (1 << ADSC));
 		sample += ADC;
 		_delay_ms(15);
 	}
-    /* Takes an average of 4 reads */
+	/* Takes an average of 4 reads */
 	sample /= 4;
-
-	return sample;
+	
+	return ((uint8_t) (sample*0.85) & 0xFF);
 }
 
-void USART_Transmit(unsigned int data) {
+void USART_Transmit(uint8_t data) {
 	/* Wait for empty transmit buffer */
 	while ( !( UCSR0A & (1<<UDRE0)) )
 	;
@@ -49,10 +49,8 @@ void USART_Transmit(unsigned int data) {
 	UDR0 = data;
 }
 
-void USART_Init( unsigned int ubrr)
+void USART_Init( uint8_t ubrr)
 {
-
-
 	/*Set baud rate */
 	UBRR0H = (unsigned char)(ubrr>>8);
 	UBRR0L = (unsigned char)ubrr;
@@ -64,14 +62,14 @@ void USART_Init( unsigned int ubrr)
 }
 
 int main (void) {
-	unsigned int adc_data;
+	uint8_t adc_data;
 
 	adc_setup();
 	USART_Init(MICRO_UBRR);
 
-    while (1) {
-    	adc_data = adc_read();
-    	USART_Transmit(adc_data);
-    	_delay_ms(100);
-    }
+	while (1) {
+		adc_data = adc_read();
+		USART_Transmit(adc_data);
+		_delay_ms(100);
+	}
 }
