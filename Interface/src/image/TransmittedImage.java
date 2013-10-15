@@ -1,6 +1,7 @@
 package image;
 
 import image.processing.CopyBufferedImage;
+import image.processing.NoiseRemoval;
 import image.processing.SIFT;
 
 import java.awt.image.BufferedImage;
@@ -35,6 +36,7 @@ public class TransmittedImage {
 
     public TransmittedImage(BufferedImage image) {
         bufferedImage = CopyBufferedImage.copy(image);
+        //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
 
         System.out.println(HIST_ARRAY_SIZE);
         histograms = new Histogram[HIST_ARRAY_SIZE];
@@ -46,6 +48,7 @@ public class TransmittedImage {
         this.width = width;
         this.height = height;
         bufferedImage = CopyBufferedImage.copy(image);
+        //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
 
         System.out.println(HIST_ARRAY_SIZE);
         histograms = new Histogram[HIST_ARRAY_SIZE];
