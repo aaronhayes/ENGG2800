@@ -1,6 +1,7 @@
 package image;
 
 import image.processing.CopyBufferedImage;
+import image.processing.NoiseRemoval;
 import image.processing.SIFT;
 
 import java.awt.image.BufferedImage;
@@ -23,6 +24,9 @@ public class TransmittedImage {
     private Point stars;
     private Point earth;
 
+    private int width;
+    private int height;
+
     private int feature1X;
     private int feature1Y;
     private int feature2X;
@@ -32,6 +36,19 @@ public class TransmittedImage {
 
     public TransmittedImage(BufferedImage image) {
         bufferedImage = CopyBufferedImage.copy(image);
+        //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
+
+        System.out.println(HIST_ARRAY_SIZE);
+        histograms = new Histogram[HIST_ARRAY_SIZE];
+        this.width = TransmittedImage.IMG_WIDTH;
+        this.height = TransmittedImage.IMG_HEIGHT;
+    }
+
+    public TransmittedImage(BufferedImage image, int width, int height) {
+        this.width = width;
+        this.height = height;
+        bufferedImage = CopyBufferedImage.copy(image);
+        //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
 
         System.out.println(HIST_ARRAY_SIZE);
         histograms = new Histogram[HIST_ARRAY_SIZE];
@@ -74,11 +91,11 @@ public class TransmittedImage {
     }
 
     public int getWidth() {
-        return bufferedImage.getWidth();
+        return width;
     }
 
     public int getHeight() {
-        return bufferedImage.getHeight();
+        return height;
     }
 
     public void setAngle(double[] a) {
@@ -104,7 +121,7 @@ public class TransmittedImage {
     public void addHistogram(Histogram histogram1, int x, int y) {
         int xIn = x / Histogram.SIZE;
         int yIn = y / Histogram.SIZE;
-        histograms[(yIn * (IMG_WIDTH / Histogram.SIZE)) + xIn] = histogram1;
+        histograms[(yIn * (width / Histogram.SIZE)) + xIn] = histogram1;
     }
 
     public Histogram[] getHistograms() {

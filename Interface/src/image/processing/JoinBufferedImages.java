@@ -98,6 +98,44 @@ public class JoinBufferedImages {
 
     }
 
+    public static BufferedImage stitchTwoTransmittedImages(TransmittedImage image1, TransmittedImage image2) {
+        if (image1 == null || image2 == null) {
+            return null;
+        }
+
+        /* Get required dimensions for final image */
+        int width = image1.getWidth() + image2.getWidth();
+        int height = image1.getHeight();
+
+        Point[] compare1 = SIFT.compareMerge(image1, image2);
+
+        if (compare1[0] == null || compare1[1] == null) {
+            System.err.println("Unable to Join Images");
+            return null;
+        }
+
+        width -= (image1.getWidth() - compare1[0].getX());
+        //width -= compare1[0].getX();
+
+        //height += Math.abs(compare1[0].getY() - compare1[1].getY());
+
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+
+        Graphics g = bufferedImage.getGraphics();
+
+
+        int x2 = compare1[0].getX();
+        int y2 = Math.abs(compare1[0].getY() - compare1[1].getY());;
+        int x = 0;
+        int y = 0;
+
+        g.drawImage(CropBufferedImage.crop(image1.getBufferedImage(), x, y), x, y, null);
+        g.drawImage(CropBufferedImage.crop(image2.getBufferedImage(), x, 0), x2, 0, null);
+
+        g.dispose();
+
+        return bufferedImage;
+    }
 
     public static BufferedImage stitchThreeTransmittedImages(TransmittedImage image1, TransmittedImage image2, TransmittedImage image3) {
         if (image1 == null || image2 == null || image3 == null) {
@@ -105,7 +143,7 @@ public class JoinBufferedImages {
         }
 
         /* Get required dimensions for final image */
-        int width = image1.getWidth() + image2.getWidth() + image3.getHeight();
+        int width = image1.getWidth() + image2.getWidth() + image3.getWidth();
         int height = image1.getHeight();
 
         Point[] compare1 = SIFT.compareMerge(image1, image2);

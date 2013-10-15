@@ -44,6 +44,7 @@ public class ListPanel extends JPanel {
         switch (i) {
             case 1: listModel.addElement("Southern-Cross"); break;
             case 2: listModel.addElement("Earth"); break;
+            case 3: listModel.addElement("Placeholder"); break;
             default: listModel.addElement("Image " + i);
         }
     }
