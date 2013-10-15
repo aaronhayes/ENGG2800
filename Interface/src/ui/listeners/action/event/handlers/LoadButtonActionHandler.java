@@ -1,13 +1,18 @@
 package ui.listeners.action.event.handlers;
 
 import image.TransmittedImage;
+import image.processing.ByteArrayToBufferedImage;
 import ui.WindowFrame;
+import usb.event.listener.SerialPortReader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -29,19 +34,42 @@ public class LoadButtonActionHandler {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc = new JFileChooser();
                 fc.setDialogTitle("Load Image From File");
-                int returnVal = fc.showSaveDialog(windowFrame);
+                int returnVal = fc.showOpenDialog(windowFrame);
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-
+                    FileInputStream in = null;
                     File file = fc.getSelectedFile();
 
-                    try {
-                        TransmittedImage image = new TransmittedImage(ImageIO.read(file));
-                        windowFrame.addImage(image);
-                    } catch (IOException e1) {
-                        System.out.println("Unable to Load Image");
-                    }
+                    if (file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bytes") || !file.getAbsolutePath().contains(".")) {
+                        try {
+                            in = new FileInputStream(file);
+                            int c;
 
+                            byte[] bytes = new byte[TransmittedImage.IMG_HEIGHT * TransmittedImage.IMG_WIDTH];
+
+                            int count = 0;
+                            while ((c = in.read()) != -1) {
+                                bytes[count++] = (byte) (c & 0xFF);
+                            }
+
+                            BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(bytes, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
+                            windowFrame.addImage(new TransmittedImage(bufferedImage, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT));
+
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (ArrayIndexOutOfBoundsException e1) {
+                            System.err.println("Invalid file format, must be 8 bit 320 x 240 pixels");
+                        }
+                    } else {
+                        try {
+                            TransmittedImage image = new TransmittedImage(ImageIO.read(file));
+                            windowFrame.addImage(image);
+                        } catch (IOException e1) {
+                            System.out.println("Unable to Load Image");
+                        }
+                    }
                 }
             }
         };

@@ -37,11 +37,16 @@ public class PanoramaButtonActionHandler {
                 int num = windowFrame.getNumberSelected();
 
                 BufferedImage bi;
-                if (num == 3) {
-                    bi = JoinBufferedImages.stitchThreeTransmittedImages(images.get(0), images.get(1), images.get(2));
-
-                } else {
-                    bi = JoinBufferedImages.join(images, num);
+                switch (num) {
+                    case 2:
+                        bi = JoinBufferedImages.stitchTwoTransmittedImages(images.get(0), images.get(1));
+                        break;
+                    case 3:
+                        bi = JoinBufferedImages.stitchThreeTransmittedImages(images.get(0), images.get(1), images.get(2));
+                        break;
+                    default:
+                        bi = JoinBufferedImages.join(images, num);
+                        break;
                 }
 
                 if (bi != null) {
