@@ -19,13 +19,16 @@ public class SerialPortReader implements SerialPortEventListener {
     private WindowFrame windowFrame;
     private static final int MASK = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
 
+    public static final int WIDTH = 200;
+    public static final int HEIGHT = 160;
+
     private byte[] byteMap;
     private int currentX;
     private int currentY;
 
     public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
-        byteMap = new byte[TransmittedImage.IMG_WIDTH * TransmittedImage.IMG_HEIGHT];
+        byteMap = new byte[WIDTH * HEIGHT];
         currentX = 0;
         currentY = 0;
     }
@@ -42,12 +45,12 @@ public class SerialPortReader implements SerialPortEventListener {
                         for (int b = 0; b < buffer.length; b++) {
                             //int p = buffer[b] & 0xFF;
                             //System.out.println(p + " (" + currentX + ", " + currentY + ")");
-                            byteMap[(currentY * TransmittedImage.IMG_WIDTH) + currentX] = buffer[b];
+                            byteMap[(currentY * WIDTH) + currentX] = buffer[b];
                             currentX++;
-                            if (currentX >= TransmittedImage.IMG_WIDTH) {
+                            if (currentX >= WIDTH) {
                                 currentX = 0;
                                 currentY++;
-                                if (currentY >= TransmittedImage.IMG_HEIGHT) {
+                                if (currentY >= HEIGHT) {
                                     uploadImage();
                                     break;
                                 }
@@ -70,9 +73,9 @@ public class SerialPortReader implements SerialPortEventListener {
         currentX = 0;
         //BufferedImage bufferedImage = JoinBufferedImages.stitchArray(imageMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
         BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(byteMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
-        windowFrame.addImage(new TransmittedImage(bufferedImage));
+        windowFrame.addImage(new TransmittedImage(bufferedImage, WIDTH, HEIGHT));
 
-        for (int i = 0; i < TransmittedImage.IMG_WIDTH * TransmittedImage.IMG_HEIGHT; i++) {
+        for (int i = 0; i < WIDTH * HEIGHT; i++) {
             byteMap[i] = 0;
         }
     }

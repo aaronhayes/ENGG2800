@@ -5,7 +5,7 @@ package image;
  * @author Aaron Hayes
  */
 public class Histogram {
-    public static final int SIZE = 16;
+    public static final int SIZE = 10;
     public static final int ANGLE_GROUPS = 8;
     private double[] values;
     private double[] keyValues;

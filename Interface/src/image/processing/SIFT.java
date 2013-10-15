@@ -63,14 +63,14 @@ public class SIFT {
         Histogram[] histogramsMainImage = image1.getHistograms();
         Histogram[] histogramsSecondImage = image2.getHistograms();
 
-        for (int y = 0; y < (TransmittedImage.IMG_HEIGHT/ Histogram.SIZE); y++) {
-            for (int x = 0; x < (TransmittedImage.IMG_WIDTH / Histogram.SIZE); x++) {
-                Histogram histogram1 = histogramsMainImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + x];
+        for (int y = 0; y < (image1.IMG_HEIGHT/ Histogram.SIZE); y++) {
+            for (int x = 0; x < (image1.IMG_WIDTH / Histogram.SIZE); x++) {
+                Histogram histogram1 = histogramsMainImage[(y * (image1.IMG_WIDTH / Histogram.SIZE)) + x];
 
                 if (histogram1.isKeypoint()) {
-                      for (int y2 = 0; y2 < (TransmittedImage.IMG_HEIGHT/ Histogram.SIZE); y2++) {
-                             for (int x2 = 0; x2 < (TransmittedImage.IMG_WIDTH / Histogram.SIZE); x2++) {
-                            Histogram histogram2 = histogramsSecondImage[(y2 * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + x2];
+                      for (int y2 = 0; y2 < (image2.IMG_HEIGHT/ Histogram.SIZE); y2++) {
+                             for (int x2 = 0; x2 < (image2.IMG_WIDTH / Histogram.SIZE); x2++) {
+                            Histogram histogram2 = histogramsSecondImage[(y2 * (image2.IMG_WIDTH / Histogram.SIZE)) + x2];
 
                             if (histogram2.isKeypoint()) {
 
