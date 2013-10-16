@@ -67,7 +67,7 @@ public class SIFT {
             for (int x = 0; x < (image1.IMG_WIDTH / Histogram.SIZE); x++) {
                 Histogram histogram1 = histogramsMainImage[(y * (image1.IMG_WIDTH / Histogram.SIZE)) + x];
 
-                if (histogram1.isKeypoint()) {
+                if (histogram1 != null && histogram1.isKeypoint()) {
                       for (int y2 = 0; y2 < (image2.IMG_HEIGHT/ Histogram.SIZE); y2++) {
                              for (int x2 = 0; x2 < (image2.IMG_WIDTH / Histogram.SIZE); x2++) {
                             Histogram histogram2 = histogramsSecondImage[(y2 * (image2.IMG_WIDTH / Histogram.SIZE)) + x2];
