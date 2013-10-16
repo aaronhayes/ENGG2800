@@ -72,7 +72,7 @@ public class SerialPortReader implements SerialPortEventListener {
         currentY = 0;
         currentX = 0;
         //BufferedImage bufferedImage = JoinBufferedImages.stitchArray(imageMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
-        BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(byteMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
+        BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(byteMap, WIDTH, HEIGHT);
         windowFrame.addImage(new TransmittedImage(bufferedImage, WIDTH, HEIGHT));
 
         for (int i = 0; i < WIDTH * HEIGHT; i++) {
