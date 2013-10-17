@@ -21,32 +21,23 @@ public class StreamViewer {
         int height = 240;
 
         try {
-            URL url = wf.getClass().getResource("southerncross.png");
-            if (url != null) {
-                TransmittedImage image = new TransmittedImage(ImageIO.read(new File(url.getPath())));
-                wf.addImage(image);
-            }
+        	TransmittedImage image = new TransmittedImage(ImageIO.read(wf.getClass().getResourceAsStream("southerncross.png")));
+            wf.addImage(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         try {
-            URL url = wf.getClass().getResource("earth.png");
-            if (url != null) {
-                TransmittedImage image = new TransmittedImage(ImageIO.read(new File(url.getPath())));
-                wf.addImage(image);
-            }
+            TransmittedImage image = new TransmittedImage(ImageIO.read(wf.getClass().getResourceAsStream("earth.png")));
+            wf.addImage(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            URL url = wf.getClass().getResource("Placeholder2.bmp");
-            if (url != null) {
-                TransmittedImage image = new TransmittedImage(ImageIO.read(new File(url.getPath())));
-                wf.addImage(image);
-            }
+        	TransmittedImage image = new TransmittedImage(ImageIO.read(wf.getClass().getResourceAsStream("Placeholder2.bmp")));
+            wf.addImage(image);
         } catch (IOException e) {
             System.err.println(e.toString() + " Leaving Placeholder Image off display.");
         }
