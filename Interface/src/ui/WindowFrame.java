@@ -193,7 +193,7 @@ public class WindowFrame extends JFrame {
         listPanel.setSelection(listPanel.getListSize() - 1);
         currentImage = image;
         edge = false;
-        EdgeDetection.dydx(image, this, (getNumberTransmittedImages() > 2 ? true : false));
+        EdgeDetection.dydx(image, this, (getNumberTransmittedImages() > 2));
 
         controlPanel.getInfoPanel().clearList();
         if (image.getStarsPoint() != null) {
