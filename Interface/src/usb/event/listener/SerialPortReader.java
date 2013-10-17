@@ -23,18 +23,22 @@ public class SerialPortReader implements SerialPortEventListener {
     public static final int HEIGHT = 160;
 
     private byte[] byteMap;
+    private byte[] lastEight;
     private int currentX;
     private int currentY;
+    private boolean readingImage = false;
 
     public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
         byteMap = new byte[WIDTH * HEIGHT];
+        lastEight = new byte[8];
         currentX = 0;
         currentY = 0;
     }
 
     /**
      * Read Data from Serial Port on event
+     * @param event SerialPortEvent
      */
     public void serialEvent(SerialPortEvent event) {
         if (windowFrame.getSerialPortConnection().getStatus()) {
@@ -42,18 +46,23 @@ public class SerialPortReader implements SerialPortEventListener {
                 try {
                     byte buffer[] = serialPort.readBytes(32);
                     if (buffer != null) {
-                        for (int b = 0; b < buffer.length; b++) {
-                            //int p = buffer[b] & 0xFF;
-                            //System.out.println(p + " (" + currentX + ", " + currentY + ")");
-                            byteMap[(currentY * WIDTH) + currentX] = buffer[b];
-                            currentX++;
-                            if (currentX >= WIDTH) {
-                                currentX = 0;
-                                currentY++;
-                                if (currentY >= HEIGHT) {
-                                    uploadImage();
-                                    break;
+                        for (byte aBuffer : buffer) {
+                            if (readingImage) {
+                                //int p = buffer[b] & 0xFF;
+                                //System.out.println(p + " (" + currentX + ", " + currentY + ")");
+                                byteMap[(currentY * WIDTH) + currentX] = aBuffer;
+                                currentX++;
+                                if (currentX >= WIDTH) {
+                                    currentX = 0;
+                                    currentY++;
+                                    if (currentY >= HEIGHT) {
+                                        uploadImage();
+                                        break;
+                                    }
                                 }
+                                updateLastByte(aBuffer);
+                            } else {
+                                updateLastByte(aBuffer);
                             }
                         }
                     }
@@ -63,6 +72,66 @@ public class SerialPortReader implements SerialPortEventListener {
                 }
             }
         }
+    }
+
+    /**
+     * Add received byte to lst
+     * @param b byte
+     */
+    private void updateLastByte(byte b) {
+        lastEight[7] = lastEight[6];
+        lastEight[6] = lastEight[5];
+        lastEight[5] = lastEight[4];
+        lastEight[4] = lastEight[3];
+        lastEight[3] = lastEight[2];
+        lastEight[2] = lastEight[1];
+        lastEight[1] = lastEight[0];
+        lastEight[0] = b;
+        checkLastEight();
+    }
+
+    /**
+     * Check the last eight bytes for start/stop signal
+     */
+    private void checkLastEight() {
+
+        /* check for start signal */
+        if(lastEight[7] == (byte) 0xFF &&
+                lastEight[6] == (byte) 0x00 &&
+                lastEight[5] == (byte) 0xFF &&
+                lastEight[4] == (byte) 0x00 &&
+                lastEight[3] == (byte) 0xFF &&
+                lastEight[2] == (byte) 0x00 &&
+                lastEight[1] == (byte) 0xFF &&
+                lastEight[0] == (byte) 0x00) {
+            readingImage = true;
+            return;
+        }
+
+        /* check for stop signal */
+        if(lastEight[7] == (byte) 0x00 &&
+                lastEight[6] == (byte) 0xFF &&
+                lastEight[5] == (byte) 0x00 &&
+                lastEight[4] == (byte) 0xFF &&
+                lastEight[3] == (byte) 0x00 &&
+                lastEight[2] == (byte) 0xFF &&
+                lastEight[1] == (byte) 0x00 &&
+                lastEight[0] == (byte) 0xFF) {
+            if (readingImage) {
+                fillImage();
+                uploadImage();
+            }
+        }
+    }
+
+    /**
+     * Got stop signal from image, fill in missing pixels.
+     */
+    private void fillImage() {
+        //for (int i = 0; i < WIDTH * HEIGHT; i++) {
+        //
+        //}
+
     }
 
     /**
@@ -78,6 +147,8 @@ public class SerialPortReader implements SerialPortEventListener {
         for (int i = 0; i < WIDTH * HEIGHT; i++) {
             byteMap[i] = 0;
         }
+
+        readingImage = false;
     }
 
     /**
