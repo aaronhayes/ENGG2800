@@ -1,7 +1,5 @@
 package image.processing;
 
-import com.sun.org.apache.xerces.internal.util.SymbolHash;
-
 import java.awt.image.BufferedImage;
 
 /**
