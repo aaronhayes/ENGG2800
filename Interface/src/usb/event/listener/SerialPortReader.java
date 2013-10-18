@@ -27,6 +27,7 @@ public class SerialPortReader implements SerialPortEventListener {
     private int currentX;
     private int currentY;
     private boolean readingImage = false;
+    private int count;
 
     public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
@@ -34,6 +35,7 @@ public class SerialPortReader implements SerialPortEventListener {
         lastEight = new byte[8];
         currentX = 0;
         currentY = 0;
+        count = 0;
     }
 
     /**
@@ -50,7 +52,7 @@ public class SerialPortReader implements SerialPortEventListener {
                             if (readingImage) {
                                 //int p = buffer[b] & 0xFF;
                                 //System.out.println(p + " (" + currentX + ", " + currentY + ")");
-                                byteMap[(currentY * WIDTH) + currentX] = aBuffer;
+                                /*byteMap[(currentY * WIDTH) + currentX] = aBuffer;
                                 currentX++;
                                 if (currentX >= WIDTH) {
                                     currentX = 0;
@@ -59,7 +61,13 @@ public class SerialPortReader implements SerialPortEventListener {
                                         uploadImage();
                                         break;
                                     }
-                                }
+                                }*/
+                            	
+                            	byteMap[count++] = aBuffer;
+                            	
+                            	if (count >= (WIDTH * HEIGHT)) {
+                            		uploadImage();
+                            	}
                                 updateLastByte(aBuffer);
                             } else {
                                 updateLastByte(aBuffer);
@@ -120,6 +128,8 @@ public class SerialPortReader implements SerialPortEventListener {
             if (readingImage) {
                 fillImage();
                 uploadImage();
+            } else {
+            	reset();
             }
         }
     }
@@ -138,12 +148,21 @@ public class SerialPortReader implements SerialPortEventListener {
      * Convert imageMap into single image and send to screen
      */
     private void uploadImage() {
-        currentY = 0;
-        currentX = 0;
+
         //BufferedImage bufferedImage = JoinBufferedImages.stitchArray(imageMap, TransmittedImage.IMG_WIDTH, TransmittedImage.IMG_HEIGHT);
         BufferedImage bufferedImage = ByteArrayToBufferedImage.Convert(byteMap, WIDTH, HEIGHT);
         windowFrame.addImage(new TransmittedImage(bufferedImage, WIDTH, HEIGHT));
+        reset();
 
+    }
+    
+    /**
+     * Reset variables to beginning of an image
+     */
+    private void reset() {
+        currentY = 0;
+        currentX = 0;
+        count = 0;
         for (int i = 0; i < WIDTH * HEIGHT; i++) {
             byteMap[i] = 0;
         }
