@@ -3,8 +3,6 @@ package ui.listeners.action.event.handlers;
 import image.TransmittedImage;
 import image.processing.ByteArrayToBufferedImage;
 import ui.WindowFrame;
-import usb.event.listener.SerialPortReader;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -64,7 +62,8 @@ public class LoadButtonActionHandler {
                         }
                     } else {
                         try {
-                            TransmittedImage image = new TransmittedImage(ImageIO.read(file));
+                        	BufferedImage bufferedimage = ImageIO.read(file);
+                            TransmittedImage image = new TransmittedImage(bufferedimage, bufferedimage.getWidth(), bufferedimage.getHeight());
                             windowFrame.addImage(image);
                         } catch (IOException e1) {
                             System.out.println("Unable to Load Image");
