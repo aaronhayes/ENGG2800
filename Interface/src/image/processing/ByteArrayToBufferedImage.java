@@ -11,8 +11,10 @@ import java.awt.image.*;
 public class ByteArrayToBufferedImage {
 
     /**
-     * Convert image
+     * Convert byte array into 8 bit gray scale image
      * @param bytes Byte[] to be converted
+     * @param width width of the image in pixels
+     * @param height height of the immage in pixels
      */
     public static BufferedImage Convert(byte[] bytes, int width, int height) {
         ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_GRAY);
