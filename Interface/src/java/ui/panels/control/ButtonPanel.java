@@ -16,6 +16,7 @@ public class ButtonPanel extends JPanel {
     private JButton save;
     private JButton panorama;
     private JComboBox jComboBox;
+
     /**
      * Basic constructor
      */

@@ -11,6 +11,10 @@ import java.awt.event.*;
 public class PortComboBoxFocusHandler {
     private WindowFrame windowFrame;
 
+    /**
+     * Constructor for COMS Port ComboBox Focus Handler
+     * @param wf WindowFrame to preform actions on
+     */
     public PortComboBoxFocusHandler(WindowFrame wf) {
         windowFrame = wf;
 

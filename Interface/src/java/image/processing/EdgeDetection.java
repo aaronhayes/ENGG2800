@@ -20,6 +20,12 @@ public class EdgeDetection {
 
     }
 
+    /**
+     * Calculate Gradient changes of an image
+     * @param image Transmitted Image to evaluate
+     * @param windowFrame WindowFrame to save results to
+     * @param findPoints boolean to determine if the earth or southern cross need to be found
+     */
     public static void dydx(TransmittedImage image, WindowFrame windowFrame, boolean findPoints) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -78,6 +84,11 @@ public class EdgeDetection {
         }
     }
 
+    /**
+     * Find the average value of a array of pixels
+     * @param pixels array of pixels
+     * @return average of the array values
+     */
     private static int averagePixel(int[] pixels) {
         return (pixels[0] + pixels[1] + pixels[3]) / 3;
     }

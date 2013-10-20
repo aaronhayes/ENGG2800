@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 
 /**
+ * Class to hold information about Images that have been Transmitted and loaded from file
  * @author Aaron Hayes
  */
 public class TransmittedImage {
@@ -34,6 +35,10 @@ public class TransmittedImage {
 
     private Histogram[] histograms;
 
+    /**
+     * Basic Constructor
+     * @param image BufferedImage - the image
+     */
     public TransmittedImage(BufferedImage image) {
         bufferedImage = CopyBufferedImage.copy(image);
         //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
@@ -44,6 +49,12 @@ public class TransmittedImage {
         this.height = TransmittedImage.IMG_HEIGHT;
     }
 
+    /**
+     * Constructor
+     * @param image BufferedImage - the image
+     * @param width the width of the image
+     * @param height the height of the image
+     */
     public TransmittedImage(BufferedImage image, int width, int height) {
         this.width = width;
         this.height = height;
@@ -54,18 +65,34 @@ public class TransmittedImage {
         histograms = new Histogram[HIST_ARRAY_SIZE];
     }
 
+    /**
+     * Set the edge detected image
+     * @param edge Buffered Image
+     */
     public void setEdgeImage(BufferedImage edge) {
         edgeImage = edge;
     }
 
+    /**
+     * Get the edge detected image
+     * @return edgeImage
+     */
     public BufferedImage getEdgeImage() {
         return edgeImage;
     }
 
+    /**
+     * Set the Buffered Image of the
+     * @param image BufferedImage
+     */
     public void setBufferedImage(BufferedImage image) {
         bufferedImage = image;
     }
 
+    /**
+     * Get Buffed Image of Transmitted Image
+     * @return bufferedImage
+     */
     public BufferedImage getBufferedImage() {
         return bufferedImage;
     }
@@ -90,55 +117,109 @@ public class TransmittedImage {
         return ((getFeature1X() + getFeature2X()) / 2);
     }
 
+    /**
+     * Get Width of Image
+     * @return width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get Height of Image
+     * @return height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Set Angle Array
+     * @param a double[] angle
+     */
     public void setAngle(double[] a) {
         angle = a;
     }
 
+    /**
+     * Get Angle Array
+     * @return angle
+     */
     public double[] getAngleArray() {
         return angle;
     }
 
+    /**
+     * Get Magnitude Array
+     * @return magnitude
+     */
     public double[] getMagnitudeArray() {
         return magnitude;
     }
 
+    /**
+     * Set Magnitude Array
+     * @param m double[] magnitude
+     */
     public void setMagnitude(double[] m) {
         magnitude = m;
     }
 
+    /**
+     * Start creation of histograms
+     */
     public void createHistogram() {
         SIFT.createHistograms(this);
     }
 
+    /**
+     * Add a histogram to the image
+     * @param histogram1 Histogram
+     * @param x X location
+     * @param y Y location
+     */
     public void addHistogram(Histogram histogram1, int x, int y) {
         int xIn = x / Histogram.SIZE;
         int yIn = y / Histogram.SIZE;
         histograms[(yIn * (width / Histogram.SIZE)) + xIn] = histogram1;
     }
 
+    /**
+     * Get Array of Histograms
+     * @return histograms[]
+     */
     public Histogram[] getHistograms() {
         return histograms;
     }
 
+    /**
+     * Preform SIFT comparison to find the southern cross
+     * @param star Image of the southern cross
+     */
     public void findStars(TransmittedImage star) {
         this.stars = SIFT.compare(this, star);
     }
 
+    /**
+     * Preform SIFT comparison to find the earth
+     * @param earth Image of the Earth
+     */
     public void findEarth(TransmittedImage earth) {
         this.earth = SIFT.compare(this, earth);
     }
 
+    /**
+     * Get Points of the Southern cross
+     * @return Point stars
+     */
     public Point getStarsPoint() {
         return stars;
     }
+
+    /**
+     * Get Points of the Earth
+     * @return Point earth
+     */
     public Point getEarthPoint() {
         return earth;
     }

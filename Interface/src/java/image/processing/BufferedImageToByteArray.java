@@ -1,10 +1,7 @@
 package image.processing;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * Convert a BufferedImage to a Byte[]
@@ -13,7 +10,7 @@ import java.io.IOException;
 public class BufferedImageToByteArray {
 
     /**
-     * Convert image
+     * Convert image to byte array
      * @param image BufferedImage to convert
      */
     public static byte[] Convert(BufferedImage image) {
@@ -31,20 +28,15 @@ public class BufferedImageToByteArray {
                 bytes[(y * width) + x] = (byte) averagePixel(pixelArray1);
             }
         }
-        /*
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] bytes;
-        try {
-            ImageIO.write(image, "bmp", baos);
-            baos.flush();
-            bytes = baos.toByteArray();
-            baos.close();
-        } catch (IOException e) {
-            return null;
-        } */
+
         return bytes;
     }
 
+    /**
+     * Find the average value of a array of pixels
+     * @param pixels array of pixels
+     * @return average of the array values
+     */
     private static int averagePixel(int[] pixels) {
         return (pixels[0] + pixels[1] + pixels[3]) / 3;
     }

@@ -30,6 +30,10 @@ public class Histogram {
         keyValues = new double[ANGLE_GROUPS];
     }
 
+    /**
+     * Set values of the Histogram
+     * @param values double array of values
+     */
     public void setValues(double[] values) {
 
         //System.out.println("NEW HISTOGRAM");
@@ -54,26 +58,50 @@ public class Histogram {
         }
     }
 
+    /**
+     * Get Histogram values
+     * @return values
+     */
     public double[] getValues() {
         return values;
     }
 
+    /**
+     * Get the total magnitude of the histogram
+     * @return totalMagnitude
+     */
     public double getTotalMagnitude() {
         return totalMagnitude;
     }
 
+    /**
+     * Check if the histogram meets requirements for being a keypoint
+     * @return keypoint
+     */
     public boolean isKeypoint() {
         return keypoint;
     }
 
+    /**
+     * Get X location of histogram
+     * @return x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Get Y location of histogram
+     * @return y
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Get array of key values
+     * @return keyValues
+     */
     public double[] getKeyValues() {
         return keyValues;
     }

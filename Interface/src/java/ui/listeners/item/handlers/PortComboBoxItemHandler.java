@@ -12,6 +12,10 @@ import java.awt.event.ItemListener;
 public class PortComboBoxItemHandler {
     private WindowFrame windowFrame;
 
+    /**
+     * Constructor for COMS port Item Handler
+     * @param wf WindowFrame to preform actions on
+     */
     public PortComboBoxItemHandler(WindowFrame wf) {
         windowFrame = wf;
 

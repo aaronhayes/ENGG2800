@@ -252,6 +252,10 @@ public class WindowFrame extends JFrame {
         }
     }
 
+    /**
+     * Get list of selected images for panorama mode
+     * @return List of Transmitted Images
+     */
     public ArrayList<TransmittedImage> getPanoramaImages() {
         ArrayList<TransmittedImage> panoramaImages = new ArrayList<TransmittedImage>();
         for (int i : selectedImages) {
@@ -266,10 +270,18 @@ public class WindowFrame extends JFrame {
         return panoramaImages;
     }
 
+    /**
+     * Get number of images selected
+     * @return number of images selected
+     */
     public int getNumberSelected() {
         return selectedImages.size();
     }
 
+
+    /**
+     * Swap between edge detected image and normal Transmitted image
+     */
     public void swapEdgeDisplay() {
         if (edge) {
             bitmapPanel.updateImage(currentImage.getBufferedImage());
@@ -279,10 +291,18 @@ public class WindowFrame extends JFrame {
         edge = !edge;
     }
 
+    /**
+     * Return the Transmitted Images of the Southern Cross
+     * @return Southern Cross Transmitted Image
+     */
     public TransmittedImage getStars() {
         return images.get(0);
     }
 
+    /**
+     * Return the Transmitted Images of the Earth
+     * @return Earth Transmitted Image
+     */
     public TransmittedImage getEarth() {
         return images.get(1);
     }

@@ -9,6 +9,12 @@ import java.awt.image.WritableRaster;
  * @author Aaron Hayes
  */
 public class CopyBufferedImage {
+
+    /**
+     * Make a copy of a buffered Image
+     * @param image Buffered Image to Copy
+     * @return new copy of image
+     */
     public static BufferedImage copy(BufferedImage image) {
         ColorModel colorModel = image.getColorModel();
         boolean alpha = image.isAlphaPremultiplied();

@@ -1,8 +1,6 @@
 package image.processing;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.RescaleOp;
 import java.awt.image.WritableRaster;
 
 /**
@@ -17,21 +15,7 @@ public class AdjustImageBrightness {
      * @param val int brightness amount
      * @return adjusted BufferedImage
      */
-    public static BufferedImage Adjust(BufferedImage i, int val) {
-        float f = (float) val / 100;
-        RescaleOp op = new RescaleOp(f, 0.0f, null);
-        return op.filter(i, null);
-    }
-
-    /**
-     * Adjust the brightness of an image.
-     * @param i BufferedImage to be changed
-     * @param val int brightness amount
-     * @return adjusted BufferedImage
-     */
     public static BufferedImage AdjustGrayscale(BufferedImage i, int val) {
-        ColorModel colorModel = i.getColorModel();
-        boolean alpha = i.isAlphaPremultiplied();
         WritableRaster raster = i.getRaster();
         int[] pixelArray = new int[10];
         byte[] bytes = new byte[i.getHeight() * i.getWidth()];
@@ -47,20 +31,5 @@ public class AdjustImageBrightness {
             }
         }
         return ByteArrayToBufferedImage.Convert(bytes, i.getWidth(), i.getHeight());
-    }
-
-    /**
-     * Adjust the brightness of an image.
-     * @param img BufferedImage to be changed
-     * @param val int brightness amount
-     * @return adjusted BufferedImage
-     */
-    public static BufferedImage AdjustGrayscaleTest(BufferedImage img, int val) {
-        byte[] bytes = BufferedImageToByteArray.Convert(img);
-
-        System.out.println(bytes.length + " should be: " + (img.getHeight() * img.getWidth()));
-        System.arraycopy(bytes, 0, bytes, 0, bytes.length);
-
-        return ByteArrayToBufferedImage.Convert(bytes, img.getWidth(), img.getHeight());
     }
 }

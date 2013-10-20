@@ -65,6 +65,10 @@ public class BitmapPanel extends JPanel {
         bitmap.repaint();
     }
 
+    /**
+     * Get Label containing Bitmap
+     * @return bitmap JLabel
+     */
     public JLabel getBitmapLabel() {
         return bitmap;
     }

@@ -9,6 +9,7 @@ import javax.swing.*;
 public class InfoPanel extends JPanel {
     private JList list;
     private DefaultListModel model;
+
     /**
      * Basic constructor
      */
@@ -21,8 +22,6 @@ public class InfoPanel extends JPanel {
         list.setBackground(UIManager.getColor("Panel.background"));
         list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         add(list);
-        //addFeature("Feature", 0, 0);
-        //addFeature("Random Fake Feature", 0, 0);
     }
 
     /**

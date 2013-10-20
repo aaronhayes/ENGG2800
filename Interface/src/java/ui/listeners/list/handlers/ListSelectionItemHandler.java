@@ -15,6 +15,11 @@ public class ListSelectionItemHandler {
 
     private WindowFrame windowFrame;
     private ListPanel list;
+
+    /**
+     * Constructor for List Item Selection Handler
+     * @param wf WindowFrame to preform actions on
+     */
     public ListSelectionItemHandler(WindowFrame wf) {
         windowFrame = wf;
         list = wf.getList();
