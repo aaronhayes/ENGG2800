@@ -11,6 +11,10 @@ import engg2800.image.TransmittedImage;
 public class SIFT {
 
 
+    /**
+     * Create Histograms for a transmitted image
+     * @param image Transmitted Image
+     */
     public static void createHistograms(TransmittedImage image) {
         double[] angle = image.getAngleArray();
         double[] magnitude = image.getMagnitudeArray();
@@ -40,6 +44,12 @@ public class SIFT {
 
     }
 
+    /**
+     * Compare two image histograms
+     * @param histogram1 Histogram Image1
+     * @param histogram2 Histogram Image2
+     * @return The calculated match
+     */
     private static double compareHistogram(Histogram histogram1, Histogram histogram2) {
         double match = 100;
         double[] values1 = histogram1.getValues();
@@ -54,6 +64,12 @@ public class SIFT {
     }
 
 
+    /**
+     * Compare two Transmitted Images
+     * @param image1 TransmittedImage 1
+     * @param image2 TransmittedImage 2
+     * @return Point of closets match
+     */
     public static Point compare(TransmittedImage image1, TransmittedImage image2) {
 
         double best = 0;
@@ -75,51 +91,7 @@ public class SIFT {
                             if (histogram2.isKeypoint()) {
 
                                 double match;
-
-                                /*if ((x + 1) < (TransmittedImage.IMG_WIDTH / Histogram.SIZE)
-                                        && (y + 1) < (TransmittedImage.IMG_HEIGHT / Histogram.SIZE)
-                                        && (y - 1) >= 0
-                                        && (x - 1) >= 0) {
-
-
-                                    Histogram left  = histogramsMainImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x - 1)];
-                                    Histogram left2  = histogramsSecondImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x - 1)];
-
-                                    double matchLeft = compareHistogram(left, left2);
-
-
-                                    Histogram right  = histogramsMainImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x + 1)];
-                                    Histogram right2  = histogramsSecondImage[(y * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x + 1)];
-
-                                    double matchRight = compareHistogram(right, right2);
-
-                                    Histogram up  = histogramsMainImage[((y - 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x)];
-                                    Histogram up2  = histogramsSecondImage[((y - 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x)];
-
-                                    double matchUp = compareHistogram(up, up2);
-
-                                    Histogram down  = histogramsMainImage[((y + 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x)];
-                                    Histogram down2  = histogramsSecondImage[((y + 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x)];
-
-                                    double matchDown = compareHistogram(down, down2);
-
-                                    Histogram diB  = histogramsMainImage[((y - 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x - 1)];
-                                    Histogram diB2  = histogramsSecondImage[((y - 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x - 1)];
-
-                                    double matchDiB = compareHistogram(diB, diB2);
-
-                                    Histogram di  = histogramsMainImage[((y + 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x + 1)];
-                                    Histogram di2  = histogramsSecondImage[((y + 1) * (TransmittedImage.IMG_WIDTH / Histogram.SIZE)) + (x + 1)];
-
-                                    double matchDi = compareHistogram(di, di2);
-
-                                    double norm = compareHistogram(histogram1, histogram2);
-
-                                    match = ((matchRight + matchDown + matchDi + matchDiB + matchUp + matchLeft + norm) / 7);
-
-                                } else { */
-                                    match = compareHistogram(histogram1, histogram2);
-                                //}
+                                match = compareHistogram(histogram1, histogram2);
 
 
                                 if (match > best) {
@@ -132,8 +104,6 @@ public class SIFT {
                                     secondFit = histogram1;
                                 }
 
-
-
                             }
                         }
                     }
@@ -143,48 +113,18 @@ public class SIFT {
             }
         }
 
-        /*for (Histogram histogram : image1.getHistograms()) {
-            if (histogram.isKeypoint()) {
-                for (Histogram histogram1 : image2.getHistograms()) {
-                    if (histogram1.isKeypoint()) {
-                        double match = 100;
-                        double[] values1 = histogram.getValues();
-                        double[] values2 = histogram1.getValues();
-                        double[] diff = new double[Histogram.ANGLE_GROUPS];
-                        for (int i = 0; i < values1.length; i++) {
-                            diff[i] = Math.abs(values1[i] - values2[i]);
-                            match -= (diff[i] * diff[i]);
-                            //System.out.println("ANGLE GROUP " + i + ":" + diff[i]);
-                        }
-
-                        if (match > best) {
-                            best = match;
-                            bestFit = histogram;
-                        } else if (match > second) {
-                            second = match;
-                            secondFit = histogram;
-                        }
-                        if (match > 80)   ;
-                            //System.out.println(match + " at : (" + histogram1.getX() + "," + histogram1.getY() + ") (" + histogram.getX() + "," + histogram.getY() + ") ");
-                    }
-                }
-            }
-        } */
-
-
-
         if (bestFit != null)
         System.out.println("BEST FIT == " + best + " AT (" + bestFit.getX() + ", " + bestFit.getY() + ")");
         if (secondFit != null)
         System.out.println("Second FIT == " + second + " AT (" + secondFit.getX() + ", " + secondFit.getY() + ")");
 
         Point result;
-        if (best > 85.00 && second > 85.00) {
+        if (best > 80.00 && second > 80.00) {
             int newX = (bestFit.getX() + secondFit.getX()) / 2;
             int newY = (bestFit.getY() + secondFit.getY()) / 2;
             System.out.println("AVERAGE FIT == " + newX + ", " + newY);
             result = new Point(newX, newY);
-        } else if (best > 85.00) {
+        } else if (best > 80.00) {
             result = new Point(bestFit.getX(), bestFit.getY());
         } else {
             result = null;
@@ -198,6 +138,12 @@ public class SIFT {
     }
 
 
+    /**
+     * Compare images for panorama mode
+     * @param image1 TransmittedImage 1
+     * @param image2 TransmittedImage 2
+     * @return Point of closets match
+     */
     public static Point[] compareMerge(TransmittedImage image1, TransmittedImage image2) {
 
         double best = 0;
