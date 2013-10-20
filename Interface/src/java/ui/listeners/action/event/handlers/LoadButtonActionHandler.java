@@ -38,7 +38,7 @@ public class LoadButtonActionHandler {
                     FileInputStream in = null;
                     File file = fc.getSelectedFile();
 
-                    if (file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bytes") || !file.getAbsolutePath().contains(".")) {
+                    if (file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bytes") || !file.getAbsolutePath().contains("")) {
                         try {
                             in = new FileInputStream(file);
                             int c;
