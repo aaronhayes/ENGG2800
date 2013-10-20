@@ -42,7 +42,6 @@ public class TransmittedImage {
         bufferedImage = CopyBufferedImage.copy(image);
         //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
 
-        System.out.println(HIST_ARRAY_SIZE);
         histograms = new Histogram[HIST_ARRAY_SIZE];
         this.width = TransmittedImage.IMG_WIDTH;
         this.height = TransmittedImage.IMG_HEIGHT;
@@ -60,8 +59,7 @@ public class TransmittedImage {
         bufferedImage = CopyBufferedImage.copy(image);
         //bufferedImage = NoiseRemoval.cleanup(bufferedImage);
 
-        System.out.println(HIST_ARRAY_SIZE);
-        histograms = new Histogram[HIST_ARRAY_SIZE];
+        histograms = new Histogram[((width * height) / (Histogram.SIZE * Histogram.SIZE))];
     }
 
     /**
