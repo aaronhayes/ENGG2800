@@ -24,7 +24,7 @@ public class SerialPortReader implements SerialPortEventListener {
     public static final int HEIGHT = 160;
 
     private byte[] byteMap;
-    private byte[] lastEight;
+    private byte[] lastFour;
     private int currentX;
     private int currentY;
     private boolean readingImage = false;
@@ -33,10 +33,8 @@ public class SerialPortReader implements SerialPortEventListener {
     public SerialPortReader(WindowFrame wf) {
         windowFrame = wf;
         byteMap = new byte[WIDTH * HEIGHT];
-        lastEight = new byte[8];
-        currentX = 0;
-        currentY = 0;
-        count = 0;
+        lastFour = new byte[4];
+        reset();
     }
 
     /**
@@ -88,14 +86,10 @@ public class SerialPortReader implements SerialPortEventListener {
      * @param b byte
      */
     private void updateLastByte(byte b) {
-        lastEight[7] = lastEight[6];
-        lastEight[6] = lastEight[5];
-        lastEight[5] = lastEight[4];
-        lastEight[4] = lastEight[3];
-        lastEight[3] = lastEight[2];
-        lastEight[2] = lastEight[1];
-        lastEight[1] = lastEight[0];
-        lastEight[0] = b;
+    	lastFour[3] = lastFour[2];
+    	lastFour[2] = lastFour[1];
+        lastFour[1] = lastFour[0];
+        lastFour[0] = b;
         checkLastEight();
     }
 
@@ -105,27 +99,21 @@ public class SerialPortReader implements SerialPortEventListener {
     private void checkLastEight() {
 
         /* check for start signal */
-        if(lastEight[7] == (byte) 0xFF &&
-                lastEight[6] == (byte) 0x00 &&
-                lastEight[5] == (byte) 0xFF &&
-                lastEight[4] == (byte) 0x00 &&
-                lastEight[3] == (byte) 0xFF &&
-                lastEight[2] == (byte) 0x00 &&
-                lastEight[1] == (byte) 0xFF &&
-                lastEight[0] == (byte) 0x00) {
+        if(lastFour[3] == (byte) 0xFF &&
+        		lastFour[2] == (byte) 0x00 &&
+        		lastFour[1] == (byte) 0xFF &&
+        		lastFour[0] == (byte) 0x00) {
             readingImage = true;
+            System.out.println("Got Start Signal");
             return;
         }
 
         /* check for stop signal */
-        if(lastEight[7] == (byte) 0x00 &&
-                lastEight[6] == (byte) 0xFF &&
-                lastEight[5] == (byte) 0x00 &&
-                lastEight[4] == (byte) 0xFF &&
-                lastEight[3] == (byte) 0x00 &&
-                lastEight[2] == (byte) 0xFF &&
-                lastEight[1] == (byte) 0x00 &&
-                lastEight[0] == (byte) 0xFF) {
+        if(lastFour[3] == (byte) 0x00 &&
+           lastFour[2] == (byte) 0xFF &&
+           lastFour[1] == (byte) 0x00 &&
+           lastFour[0] == (byte) 0xFF) {
+        	System.out.println("Got Stop Signal");
             if (readingImage) {
                 fillImage();
                 uploadImage();
