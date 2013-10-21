@@ -163,13 +163,9 @@ public class JoinBufferedImages {
         width -= (image2.getWidth() - compare2[0].getX());
         //width -= compare2[0].getX();
 
-        height += Math.abs(compare1[0].getY() - compare1[1].getY());
-        height += Math.abs(compare2[0].getY() - compare2[1].getY());
+        //height += Math.abs(compare1[0].getY() - compare1[1].getY());
+        //height += Math.abs(compare2[0].getY() - compare2[1].getY());
 
-
-
-
-        System.out.println(width);
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 
         Graphics g = bufferedImage.getGraphics();
@@ -177,18 +173,15 @@ public class JoinBufferedImages {
 
         int x3 = width - image3.getWidth();
                 //image1.getWidth() - (image1.getWidth() - compare1[0].getX() + compare1[1].getX()) + image2.getWidth() - (image2.getWidth() - compare2[0].getX() + compare2[1].getX());
-        System.out.println(x3);
         int y3 = Math.abs(compare2[0].getY() - compare2[1].getY());
         int x2 = compare1[0].getX();
-        System.out.println(x2);
         int y2 = Math.abs(compare1[0].getY() - compare1[1].getY());
         int x = 0;
-        System.out.println(x);
         int y = Math.abs(compare1[0].getY() - compare1[1].getY());
 
-        g.drawImage(image1.getBufferedImage(), x, y, null);
-        g.drawImage(image2.getBufferedImage(), x2, y2, null);
-        g.drawImage(image3.getBufferedImage(), x3, y3, null);
+        g.drawImage(image1.getBufferedImage(), x, 0, null);
+        g.drawImage(image2.getBufferedImage(), x2, 0, null);
+        g.drawImage(image3.getBufferedImage(), x3, 0, null);
 
         g.dispose();
 
