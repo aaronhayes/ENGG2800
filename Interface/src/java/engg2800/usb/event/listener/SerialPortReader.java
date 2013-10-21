@@ -11,6 +11,7 @@ import engg2800.ui.WindowFrame;
 import java.awt.image.BufferedImage;
 
 /**
+ * Read Transmission from Serial COMS Port
  * @author Aaron Hayes
  */
 public class SerialPortReader implements SerialPortEventListener {
