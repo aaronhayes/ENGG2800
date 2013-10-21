@@ -37,12 +37,9 @@ public class SliderPanel extends JPanel {
         slider.setSnapToTicks(true);
 
         try {
-            URL url = getClass().getResource("brightness_logo.png");
-            if (url != null) {
-                ImageIcon img = new ImageIcon(ImageIO.read(new File(url.getPath())));
-                logo = new JLabel(img);
-                add(logo, BorderLayout.NORTH);
-            }
+            ImageIcon img = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("brightness_logo.png")));
+            logo = new JLabel(img);
+            add(logo, BorderLayout.NORTH);
         } catch (IOException e) {
             System.err.println(e.toString() + " Leaving Brightness Logo off Panel.");
             // Leave logo off panel
